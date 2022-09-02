@@ -6,20 +6,22 @@ public class Login {
     private static final String ADMIN_SENHA = "admin";
     private String cpf;
     private String senha;
-    private Map<String, String> usuarios = new HashMap<>();
-
-    public Login(String cpf, String senha) {
-        this.cpf = cpf;
-        this.senha = senha;
-
-        //criar base de usuarios
+    private static final Map<String, String> usuarios = new HashMap<>();
+    static{
         usuarios.put("12345678911", "123456");
         usuarios.put("32154398711", "@@@@@");
         usuarios.put("12312312300", "10000000");
     }
 
+    public Login(String cpf, String senha) {
+        this.cpf = cpf;
+        this.senha = senha;
+
+    }
+
     boolean usuarioExiste(){
         for(String cpf: usuarios.keySet()){
+            System.out.println(cpf);
             if(cpf.equals(this.cpf)) return true;
         }
         return false;
@@ -27,5 +29,13 @@ public class Login {
 
     boolean validarLogin(){
         return usuarios.get(cpf).equals(senha);
+    }
+
+    void cadastrarUsuario(){
+        usuarios.put(cpf, senha);
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

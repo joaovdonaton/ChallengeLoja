@@ -18,7 +18,14 @@ public class Loja {
 
             Login login = new Login(user, pass);
             if(!login.usuarioExiste()){
-                //cadastrar novo
+                System.out.println("Usuário não cadastrado.");
+                System.out.println("Deseja criar um novo usuário? [S/N]");
+                if(scanner.nextLine().equals("S")){
+                    System.out.print("Crie sua senha: ");
+                    login.setSenha(scanner.nextLine());
+                    login.cadastrarUsuario();
+                    System.out.println("Usuário cadastrado com sucesso!");
+                }
             }
             else if(!login.validarLogin()) {
                 System.out.println("Senha incorreta!");
@@ -29,4 +36,5 @@ public class Loja {
             }
         }
     }
+
 }
