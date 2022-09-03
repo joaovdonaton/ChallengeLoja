@@ -16,7 +16,6 @@ public class Login {
     public Login(String cpf, String senha) {
         this.cpf = cpf;
         this.senha = senha;
-
     }
 
     boolean usuarioExiste(){
@@ -27,8 +26,12 @@ public class Login {
         return false;
     }
 
-    boolean validarLogin(){
-        return usuarios.get(cpf).equals(senha);
+    Usuario validarLogin(){
+        if(usuarios.get(cpf).equals(senha)) {
+            Usuario u = new Usuario(cpf);
+            return u;
+        }
+        return null;
     }
 
     void cadastrarUsuario(){

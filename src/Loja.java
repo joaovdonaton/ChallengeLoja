@@ -5,8 +5,10 @@ public class Loja {
     static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println("------------LOJA------------");
+        System.out.println("------------LOGIN------------");
         autenticarUsuario();
+        System.out.println("------------MENU PRINCIPAL------------");
+        menuPrincipal();
     }
 
     static void autenticarUsuario(){
@@ -26,15 +28,42 @@ public class Loja {
                     login.cadastrarUsuario();
                     System.out.println("Usuário cadastrado com sucesso!");
                 }
+                continue;
             }
-            else if(!login.validarLogin()) {
-                System.out.println("Senha incorreta!");
+            usuario = login.validarLogin();
+            if(usuario != null){
+                System.out.println("Login realizado com sucesso! Logado como: " + usuario.getCpf());
+                break;
             }
             else{
-                System.out.println("Login realizado com sucesso!");
-                break;
+                System.out.println("Senha inválida");
             }
         }
     }
 
+    static void menuPrincipal(){
+        while(true) {
+            System.out.println("[1] Fazer compras");
+            System.out.println("[2] Trocar usuário");
+            System.out.println("[3] Sobre");
+            System.out.println("[4] Sair");
+            System.out.println("Escolha uma opção: ");
+            int opcao = Integer.parseInt(scanner.nextLine());
+
+            switch (opcao){
+                case 1:
+                    break;
+                case 2:
+                    autenticarUsuario();
+                    break;
+                case 3:
+                    System.out.println("Loja virtual v1.0");
+                    break;
+                case 4:
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        }
+    }
 }
