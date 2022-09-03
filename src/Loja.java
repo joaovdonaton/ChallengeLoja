@@ -5,9 +5,9 @@ public class Loja {
     static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println("------------LOGIN------------");
+        imprimirHeader("LOGIN");
         autenticarUsuario();
-        System.out.println("------------MENU PRINCIPAL------------");
+        imprimirHeader("MENU PRINCIPAL");
         menuPrincipal();
     }
 
@@ -46,27 +46,58 @@ public class Loja {
 
     static void menuPrincipal(){
         while(true) {
-            System.out.println("[1] Fazer compras");
+            System.out.println("\n[1] Fazer compras");
             System.out.println("[2] Trocar usuário");
             System.out.println("[3] Sobre");
-            System.out.println("[4] Sair");
-            System.out.println("Escolha uma opção: ");
+            System.out.println("[4] Relatório (Administrador)");
+            System.out.println("[5] Sair");
+            System.out.println("Escolha uma opção: \n");
             int opcao = Integer.parseInt(scanner.nextLine());
 
-            switch (opcao){
-                case 1:
-                    break;
-                case 2:
-                    autenticarUsuario();
-                    break;
-                case 3:
-                    System.out.println("Loja virtual v1.0");
-                    break;
-                case 4:
-                    break;
-                default:
-                    System.out.println("Opção inválida!");
+            if (opcao == 1) compras();
+            else if (opcao == 2) autenticarUsuario();
+            else if (opcao == 3) System.out.println("Loja virtual v1.0");
+            else if (opcao == 4) {
+            }
+            else if (opcao == 5) System.exit(0);
+            else System.out.println("Opção inválida!");
+        }
+    }
+
+    static void compras(){
+        imprimirHeader("COMPRAS");
+
+        while(true) {
+            System.out.println("\n[1] Buscar produto");
+            System.out.println("[2] Listar todos os produtos");
+            System.out.println("[3] Adicionar o produto ao carrinho");
+            System.out.println("[4] Exibir carrinho");
+            System.out.println("[5] Voltar ao menu principal");
+            System.out.println("Escolha uma opção: \n");
+            int opcao = Integer.parseInt(scanner.nextLine());
+
+            if (opcao == 1) {//buscar produto
+            }
+            else if (opcao == 2) {//listar produtos
+            }
+            else if (opcao == 3) {//adicionar produto
+            }
+            else if (opcao == 4) {// exibir carrinho
+            }
+            else if (opcao == 5) {
+                break;
+            }
+            else {
+                System.out.println("Opção inválida!");
             }
         }
+    }
+
+    static void imprimirHeader(String texto){
+        System.out.println();
+        for (int i = 0; i < 35; i++) System.out.print("-");
+        System.out.print(texto);
+        for (int i = 0; i < 35; i++) System.out.print("-");
+        System.out.println("\n");
     }
 }

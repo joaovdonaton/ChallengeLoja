@@ -11,6 +11,7 @@ public class Login {
         usuarios.put("12345678911", "123456");
         usuarios.put("32154398711", "@@@@@");
         usuarios.put("12312312300", "10000000");
+        usuarios.put("123", "123");
     }
 
     public Login(String cpf, String senha) {
@@ -27,7 +28,7 @@ public class Login {
 
     Usuario validarLogin(){
         if(usuarios.get(cpf).equals(senha)) {
-            Usuario u = new Usuario(cpf);
+            Usuario u = new Usuario(cpf, false);
             return u;
         }
         return null;
