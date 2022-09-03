@@ -20,7 +20,6 @@ public class Login {
 
     boolean usuarioExiste(){
         for(String cpf: usuarios.keySet()){
-            System.out.println(cpf);
             if(cpf.equals(this.cpf)) return true;
         }
         return false;

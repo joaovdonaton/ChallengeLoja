@@ -15,10 +15,9 @@ public class Loja {
         while (true){
             System.out.print("Usuário (CPF): ");
             String user = scanner.nextLine();
-            System.out.print("Senha: ");
-            String pass = scanner.nextLine();
+            String senha = "";
 
-            Login login = new Login(user, pass);
+            Login login = new Login(user, senha);
             if(!login.usuarioExiste()){
                 System.out.println("Usuário não cadastrado.");
                 System.out.println("Deseja criar um novo usuário? [S/N]");
@@ -30,6 +29,10 @@ public class Loja {
                 }
                 continue;
             }
+
+            System.out.print("Senha: ");
+            login.setSenha(scanner.nextLine());
+
             usuario = login.validarLogin();
             if(usuario != null){
                 System.out.println("Login realizado com sucesso! Logado como: " + usuario.getCpf());
