@@ -1,5 +1,5 @@
-import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Loja {
@@ -77,14 +77,15 @@ public class Loja {
             System.out.println("[2] Listar todos os produtos");
             System.out.println("[3] Adicionar o produto ao carrinho");
             System.out.println("[4] Exibir carrinho");
-            System.out.println("[5] Cadastrar Produto (Administrador)");
-            System.out.println("[6] Voltar ao menu principal");
+            System.out.println("[5] Finalizar compras");
+            System.out.println("[6] Cadastrar Produto (Administrador)");
+            System.out.println("[7] Voltar ao menu principal");
             System.out.print("\nEscolha uma opção: ");
             int opcao = Integer.parseInt(scanner.nextLine());
 
             if (opcao == 1) {//buscar produto
                 System.out.print("Nome do produto que deseja buscar: ");
-                List<Produto> produtos = mercado.encontrarProdutos(scanner.nextLine());
+                List<Produto> produtos = mercado.buscarProdutos(scanner.nextLine());
                 if(produtos.size() == 0){
                     System.out.println("Nenhum produto encontrado.");
                     continue;
@@ -104,12 +105,29 @@ public class Loja {
                 }
             }
             else if (opcao == 3) {//adicionar produto ao carrinho
+                System.out.print("Nome do produto: ");
+                Produto produto = mercado.getProduto(scanner.nextLine());
+
+                if(produto == null){
+                    System.out.println("Produto não encontrado.");
+                    continue;
+                }
+
+                System.out.print("Quantidade: ");
+
+                usuario.adicionarAoCarrinho(produto, Integer.parseInt(scanner.nextLine()));
             }
             else if (opcao == 4) {// exibir carrinho
+                System.out.println("Itens no Carrinho:\n");
+                for(Map.Entry<Produto, Integer> produto: usuario.getCarrinho().entrySet()){
+                    System.out.println(produto.getValue() + " x " + produto.getKey().getNome());
+                }
             }
-            else if (opcao == 5) {//
+            else if (opcao == 5) {// finalizar compras
             }
-            else if(opcao == 6){
+            else if(opcao == 6){ // cadastrar prod
+            }
+            else if(opcao == 7){
                 break;
             }
             else {

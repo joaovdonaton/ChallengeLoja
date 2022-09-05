@@ -1,13 +1,15 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Usuario {
     private String cpf;
-    Map<String, Integer> carrinho;
+    private Map<Produto, Integer> carrinho;
     private boolean admin;
 
     public Usuario(String cpf, boolean admin){
         this.cpf = cpf;
+        carrinho = new HashMap<>();
     }
 
     boolean isAdmin(){
@@ -16,5 +18,13 @@ public class Usuario {
 
     public String getCpf() {
         return cpf;
+    }
+
+    public void adicionarAoCarrinho(Produto produto, int quantidade){
+        carrinho.put(produto, quantidade);
+    }
+
+    public Map<Produto, Integer> getCarrinho(){
+        return carrinho;
     }
 }

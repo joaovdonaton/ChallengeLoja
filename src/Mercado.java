@@ -32,7 +32,11 @@ public class Mercado {
         }
     }
 
-    List<Produto> encontrarProdutos(String busca){
+    /**
+     * @param busca palavra chave para busca nos nomes
+     * @return List de Produtos
+     */
+    List<Produto> buscarProdutos(String busca){
         List<Produto> encontrados = new ArrayList<>();
         for(Produto produto: produtos){
             for(String palavra: produto.getNome().split(" ")){
@@ -47,5 +51,21 @@ public class Mercado {
 
     List<Produto> getProdutos(){
         return produtos;
+    }
+
+    /**
+     * @param nome nome exato do produto
+     * @return produto, null se não encontrar
+     */
+    Produto getProduto(String nome){
+        Produto p = null;
+        for(Produto produto: produtos){
+            if(produto.getNome().equalsIgnoreCase(nome)){
+                p = produto;
+                break;
+            }
+        }
+
+        return p;
     }
 }
