@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.Scanner;
 
 public class Loja {
@@ -67,6 +68,9 @@ public class Loja {
     static void compras(){
         imprimirHeader("COMPRAS");
 
+        Mercado mercado = new Mercado();
+        mercado.carregarProdutos();
+
         while(true) {
             System.out.println("\n[1] Buscar produto");
             System.out.println("[2] Listar todos os produtos");
@@ -79,6 +83,9 @@ public class Loja {
             if (opcao == 1) {//buscar produto
             }
             else if (opcao == 2) {//listar produtos
+                for(Produto produto: mercado.getProdutos()){
+                    System.out.println("["+produto.nome+"] " + produto.descricao + ". Preço: R$ " + produto.preco);
+                }
             }
             else if (opcao == 3) {//adicionar produto
             }
