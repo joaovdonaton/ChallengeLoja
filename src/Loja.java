@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.List;
 import java.util.Scanner;
 
 public class Loja {
@@ -21,7 +22,7 @@ public class Loja {
             Login login = new Login(user, senha);
             if(!login.usuarioExiste()){
                 System.out.println("Usuário não cadastrado.");
-                System.out.println("Deseja criar um novo usuário? [S/N]");
+                System.out.print("Deseja criar um novo usuário? [S/N]: ");
                 if(scanner.nextLine().equals("S")){
                     System.out.print("Crie sua senha: ");
                     login.setSenha(scanner.nextLine());
@@ -52,7 +53,7 @@ public class Loja {
             System.out.println("[3] Sobre");
             System.out.println("[4] Relatório (Administrador)");
             System.out.println("[5] Sair");
-            System.out.println("Escolha uma opção: \n");
+            System.out.print("\nEscolha uma opção: ");
             int opcao = Integer.parseInt(scanner.nextLine());
 
             if (opcao == 1) compras();
@@ -76,22 +77,39 @@ public class Loja {
             System.out.println("[2] Listar todos os produtos");
             System.out.println("[3] Adicionar o produto ao carrinho");
             System.out.println("[4] Exibir carrinho");
-            System.out.println("[5] Voltar ao menu principal");
-            System.out.println("Escolha uma opção: \n");
+            System.out.println("[5] Cadastrar Produto (Administrador)");
+            System.out.println("[6] Voltar ao menu principal");
+            System.out.print("\nEscolha uma opção: ");
             int opcao = Integer.parseInt(scanner.nextLine());
 
             if (opcao == 1) {//buscar produto
+                System.out.print("Nome do produto que deseja buscar: ");
+                List<Produto> produtos = mercado.encontrarProdutos(scanner.nextLine());
+                if(produtos.size() == 0){
+                    System.out.println("Nenhum produto encontrado.");
+                    continue;
+                }
+
+                System.out.printf("\n%d produtos encontrados! \n\n", produtos.size());
+
+                for(Produto produto: produtos){
+                    System.out.println("["+produto.getNome()+"] " + produto.getDescricao() +
+                            ". Preço: R$ " + produto.getPreco());
+                }
             }
             else if (opcao == 2) {//listar produtos
                 for(Produto produto: mercado.getProdutos()){
-                    System.out.println("["+produto.nome+"] " + produto.descricao + ". Preço: R$ " + produto.preco);
+                    System.out.println("["+produto.getNome()+"] " + produto.getDescricao() +
+                            ". Preço: R$ " + produto.getPreco());
                 }
             }
-            else if (opcao == 3) {//adicionar produto
+            else if (opcao == 3) {//adicionar produto ao carrinho
             }
             else if (opcao == 4) {// exibir carrinho
             }
-            else if (opcao == 5) {
+            else if (opcao == 5) {//
+            }
+            else if(opcao == 6){
                 break;
             }
             else {

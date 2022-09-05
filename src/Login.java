@@ -28,7 +28,7 @@ public class Login {
 
     Usuario validarLogin(){
         if(usuarios.get(cpf).equals(senha)) {
-            Usuario u = new Usuario(cpf, false);
+            Usuario u = new Usuario(cpf, true);
             return u;
         }
         return null;

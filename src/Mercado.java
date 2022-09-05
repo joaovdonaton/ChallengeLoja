@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +8,15 @@ public class Mercado {
 
     /**
      * Cadastra o objeto produto no produtos.txt, FORMATO: NOME|DESCRIÇÃO|PREÇO|ESTOQUE
-     * @param produto
+     * @param produto objeto da class Product que contem as informações para cadastrar o produto
      */
     void cadastrarProduto(Produto produto){
-
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_PRODUTOS, true))) {
+            bw.append((produto.toString() + "\n"));
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     void carregarProdutos(){
         try(BufferedReader br = new BufferedReader(new FileReader(PATH_PRODUTOS))){
@@ -28,6 +30,19 @@ public class Mercado {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    List<Produto> encontrarProdutos(String busca){
+        List<Produto> encontrados = new ArrayList<>();
+        for(Produto produto: produtos){
+            for(String palavra: produto.getNome().split(" ")){
+                if(palavra.equalsIgnoreCase(busca)){
+                    encontrados.add(produto);
+                }
+            }
+        }
+
+        return encontrados;
     }
 
     List<Produto> getProdutos(){
