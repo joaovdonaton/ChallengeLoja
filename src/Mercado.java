@@ -1,6 +1,8 @@
 import java.io.*;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Mercado {
     private List<Produto> produtos = new ArrayList<>();
@@ -19,6 +21,7 @@ public class Mercado {
         }
     }
     void carregarProdutos(){
+        produtos.clear();
         try(BufferedReader br = new BufferedReader(new FileReader(PATH_PRODUTOS))){
             String linha;
             while((linha = br.readLine()) != null){
@@ -67,5 +70,27 @@ public class Mercado {
         }
 
         return p;
+    }
+
+    /**
+     * Compra o carrinho do usuario, removendo as quantidades compradas da base de dados.
+     */
+    void comprar(Usuario usuario){
+        for(Map.Entry<Produto, Integer> produto: usuario.getCarrinho().entrySet()){ // remover os itens do estoque
+            for(Produto p: produtos){
+                if(produto.getKey().getNome().equals(p.getNome())){
+                    p.removerEstoque(produto.getValue());
+                }
+            }
+        }
+
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_PRODUTOS, false))){
+            for(Produto produto: produtos) {
+                bw.append(produto.toString() + "\n");
+            }
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

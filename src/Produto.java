@@ -36,4 +36,11 @@ public class Produto {
     public int getQnt_estoque() {
         return qnt_estoque;
     }
+
+    public void removerEstoque(int quantidade){
+        if(qnt_estoque - quantidade >= 0) this.qnt_estoque -= quantidade;
+        else{
+            throw new IllegalArgumentException("Não é possível remover uma quantidade maior que o estoque");
+        }
+    }
 }

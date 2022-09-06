@@ -1,5 +1,5 @@
-Doritos|salgadinho de milho|9.89|350
-Dezena Ovos|ovos de galinha|18.78|32
-Pringles|salgadinho bom|10.99|128
-Trinta Ovos|muitos ovos de galinha|40.12|3
-Banana Verde|Uma delicia|14.78|10
+Doritos|salgadinho de milho|9.890000343322754|335
+Dezena Ovos|ovos de galinha|18.780000686645508|32
+Pringles|salgadinho bom|10.989999771118164|128
+Trinta Ovos|muitos ovos de galinha|40.119998931884766|0
+Banana Verde|Uma delicia|14.779999732971191|10

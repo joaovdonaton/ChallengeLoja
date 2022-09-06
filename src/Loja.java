@@ -113,9 +113,20 @@ public class Loja {
                     continue;
                 }
 
-                System.out.print("Quantidade: ");
+                else if(produto.getQnt_estoque() == 0){
+                    System.out.println("Não temos mais " + produto.getNome());
+                    continue;
+                }
 
-                usuario.adicionarAoCarrinho(produto, Integer.parseInt(scanner.nextLine()));
+                System.out.print("Quantidade: ");
+                int quantidade = Integer.parseInt(scanner.nextLine());
+
+                if(produto.getQnt_estoque()-quantidade < 0){
+                    System.out.println("Desculpe, mas só temos " + produto.getQnt_estoque() + " unidades de " +
+                            produto.getNome());
+                }
+
+                usuario.adicionarAoCarrinho(produto, quantidade);
             }
             else if (opcao == 4) {// exibir carrinho
                 System.out.println("Itens no Carrinho:\n");
@@ -124,6 +135,7 @@ public class Loja {
                 }
             }
             else if (opcao == 5) {// finalizar compras
+                mercado.comprar(usuario);
             }
             else if(opcao == 6){ // cadastrar prod
             }
