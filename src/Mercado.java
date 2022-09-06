@@ -18,6 +18,8 @@ public class Mercado {
         catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        carregarProdutos();
     }
     void carregarProdutos(){
         produtos.clear();

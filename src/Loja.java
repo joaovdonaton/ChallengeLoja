@@ -20,6 +20,8 @@ public class Loja {
             String senha = "";
 
             Login login = new Login(user, senha);
+            login.carregarUsuarios();
+
             if(!login.usuarioExiste()){
                 System.out.println("Usuário não cadastrado.");
                 System.out.print("Deseja criar um novo usuário? [S/N]: ");
@@ -143,6 +145,9 @@ public class Loja {
 
                 System.out.println("Compra realizada com sucesso!");
                 System.out.println("Total: R$ " + usuario.totalCarrinho());
+
+                //limpar carrinho
+                usuario.limparCarrinho();
             }
             else if(opcao == 6){ // cadastrar prod
             }

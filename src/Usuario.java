@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Usuario {
@@ -35,5 +34,9 @@ public class Usuario {
         }
 
         return totalPreco;
+    }
+
+    public void limparCarrinho(){
+        this.carrinho.clear();
     }
 }
