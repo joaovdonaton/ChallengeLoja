@@ -130,12 +130,19 @@ public class Loja {
             }
             else if (opcao == 4) {// exibir carrinho
                 System.out.println("Itens no Carrinho:\n");
+
                 for(Map.Entry<Produto, Integer> produto: usuario.getCarrinho().entrySet()){
-                    System.out.println(produto.getValue() + " x " + produto.getKey().getNome());
+                    System.out.println(produto.getValue() + " x " + produto.getKey().getNome() + "(R$ " +
+                            produto.getKey().getPreco() + ")");
                 }
+
+                System.out.println("Preço Total: R$ " + usuario.totalCarrinho());
             }
             else if (opcao == 5) {// finalizar compras
                 mercado.comprar(usuario);
+
+                System.out.println("Compra realizada com sucesso!");
+                System.out.println("Total: R$ " + usuario.totalCarrinho());
             }
             else if(opcao == 6){ // cadastrar prod
             }
