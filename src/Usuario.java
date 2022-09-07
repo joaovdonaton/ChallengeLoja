@@ -8,6 +8,7 @@ public class Usuario {
 
     public Usuario(String cpf, boolean admin){
         this.cpf = cpf;
+        this.admin = admin;
         carrinho = new HashMap<>();
     }
 

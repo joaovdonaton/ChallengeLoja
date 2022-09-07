@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Loja {
     static Usuario usuario;
@@ -62,7 +59,43 @@ public class Loja {
             if (opcao == 1) compras();
             else if (opcao == 2) autenticarUsuario();
             else if (opcao == 3) System.out.println("Loja virtual v1.0");
-            else if (opcao == 4) {
+            else if (opcao == 4) { // relatório
+                if(!usuario.isAdmin()){
+                    System.out.println("\n [!] Você não é um administrador! ");
+                    continue;
+                }
+
+                System.out.println("\n");
+
+                Mercado m = new Mercado();
+                List<Usuario> usuariosHistorico = m.carregarHistorico();
+
+                /* O método carregar histórico retorna todas as compras individualmente, então se um cliente tiver feito
+                duas compras, ele aparecerá duas vezes no histórico. Logo precisamos ver quais são os CPFS de cada cliente
+                individual e buscar todas as suas compras no histórico.*/
+
+                Set<String> cpfsDiferentes = new HashSet<>();
+                for(Usuario u: usuariosHistorico){
+                    cpfsDiferentes.add(u.getCpf());
+                }
+
+                for(String cpf: cpfsDiferentes){
+                    int numCompras = 0;
+                    float totalComprado = 0;
+                    for(Usuario u: usuariosHistorico){
+                        if(cpf.equals(u.getCpf())){
+                            for(Map.Entry<Produto, Integer> e: u.getCarrinho().entrySet()){
+                                numCompras += e.getValue();
+                                totalComprado += e.getKey().getPreco()*e.getValue();
+                            }
+                        }
+                    }
+
+                    System.out.printf("CPF: [%s] - Comprou %d produtos - Preço Total: %.2f - Preço Médio: %.2f",
+                            cpf, numCompras, totalComprado, totalComprado/numCompras);
+                    System.out.println("\n");
+                }
+
             }
             else if (opcao == 5) System.exit(0);
             else System.out.println("\n [!] Opção inválida!");
@@ -127,6 +160,7 @@ public class Loja {
                 if(produto.getQnt_estoque()-quantidade < 0){
                     System.out.println("Desculpe, mas só temos " + produto.getQnt_estoque() + " unidades de " +
                             produto.getNome());
+                    continue;
                 }
 
                 usuario.adicionarAoCarrinho(produto, quantidade);
@@ -143,7 +177,13 @@ public class Loja {
                 System.out.println("Preço Total: R$ " + String.format("%.2f", usuario.totalCarrinho()));
             }
             else if (opcao == 5) {// finalizar compras
+                if(usuario.getCarrinho().size() == 0){
+                    System.out.println("\n [!] O carrinho está vazio!");
+                    continue;
+                }
+
                 mercado.comprar(usuario);
+                mercado.salvarCompraNoHistorico(usuario);
 
                 System.out.println("Compra realizada com sucesso!");
                 System.out.println("Total: R$ " + String.format("%.2f", usuario.totalCarrinho()));

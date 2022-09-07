@@ -6,6 +6,7 @@ import java.util.Map;
 public class Mercado {
     private List<Produto> produtos = new ArrayList<>();
     private static final String PATH_PRODUTOS = "./produtos.txt";
+    private static final String PATH_HISTORICO = "./historico.txt";
 
     /**
      * Cadastra o objeto produto no produtos.txt, FORMATO: NOME|DESCRIÇÃO|PREÇO|ESTOQUE
@@ -93,5 +94,49 @@ public class Mercado {
         catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Salva os itens da compra no PATH_HISTORICO, FORMATO: CPF|QNT_ITENS|ITEM_1|ITEM_2|ITEM_3
+     * FORMATO DE ITEM_N: NOME@QUANTIDADE@PRECOPAGO
+     * @param usuario
+     */
+    void salvarCompraNoHistorico(Usuario usuario){
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_HISTORICO, true))){
+            bw.append(usuario.getCpf() + "|" + usuario.getCarrinho().size());
+            for(Map.Entry<Produto, Integer> e: usuario.getCarrinho().entrySet()){
+                bw.append("|" + e.getKey().getNome() + "@" + e.getValue() + "@" + e.getKey().getPrecoFormatado().replace(",", "."));
+            }
+            bw.append("\n");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * @return uma list em que cada Usuario representa uma compra passada. Importante
+     * notar que a descrição e a quantidade do estoque são null e zero respectivamente, visto que não são
+     * úteis para o histórico.
+     */
+    List<Usuario> carregarHistorico(){
+        List<Usuario> usuarios = new ArrayList<>();
+        try(BufferedReader br = new BufferedReader(new FileReader(PATH_HISTORICO))){
+            String linha = "";
+            while((linha = br.readLine()) != null){
+                String[] dados = linha.split("\\|");
+                Usuario u = new Usuario(dados[0], false);
+                for(int i = 2; i < Integer.parseInt(dados[1])+2; i++) {
+                    String[] item = dados[i].split("@");
+                    u.adicionarAoCarrinho(new Produto(item[0], null, Float.parseFloat(item[2]), 0), Integer.parseInt(item[1]));
+                }
+                usuarios.add(u);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return usuarios;
     }
 }

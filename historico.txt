@@ -1,0 +1,5 @@
+123|3|Pringles@17@10.99|Banana Verde@1@14.78|Doritos@16@9.89
+06267107159|3|Coca-Cola lata 350ml@20@3.19|Doritos@1@9.89|Doritos@14@9.89
+123|2|Desodorante Dove Men@2@26.99|Cerveja Duplo Malte Puro Malte@50@2.99
+06267107159|1|Doritos@100@9.89
+12312312311|1|Doritos@1@9.89
