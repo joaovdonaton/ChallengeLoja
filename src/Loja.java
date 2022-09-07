@@ -98,33 +98,12 @@ public class Loja {
 
                 System.out.printf("\n%d produtos encontrados! \n\n", produtos.size());
 
-                for(Produto produto: produtos){
-                    System.out.println("["+produto.getNome()+"] " + produto.getDescricao() +
-                            ". Preço: R$ " + produto.getPrecoFormatado());
-                }
+                promptPaginacao(produtos);
+
             }
             else if (opcao == 2) {//listar produtos
 
-                while(true) {
-                    System.out.println("Página " + (paginaAtual+1));
-
-                    for(Produto produto: paginarProdutos(mercado.getProdutos(), paginaAtual)){
-                        System.out.println("["+produto.getNome()+"] " + produto.getDescricao() +
-                                ". Preço: R$ " + produto.getPrecoFormatado());
-                    }
-
-                    System.out.println("Digite proxima, anterior ou sair: ");
-                    String escolha = scanner.nextLine();
-
-                    if(escolha.equalsIgnoreCase("Proxima")) paginaAtual++;
-                    else if(escolha.equalsIgnoreCase("Anterior")) paginaAtual--;
-                    else if(escolha.equalsIgnoreCase("Sair")) break;
-
-                }
-                /*for(Produto produto: mercado.getProdutos()){
-                    System.out.println("["+produto.getNome()+"] " + produto.getDescricao() +
-                            ". Preço: R$ " + produto.getPrecoFormatado());
-                }*/
+                promptPaginacao(mercado.getProdutos());
             }
             else if (opcao == 3) {//adicionar produto ao carrinho
                 System.out.print("Nome do produto: ");
@@ -195,5 +174,28 @@ public class Loja {
         }
 
         return itensPagina;
+    }
+
+    static void  promptPaginacao(List<Produto> produtos){
+        int paginaAtual = 0;
+
+        while(true) {
+            System.out.println("Página " + (paginaAtual + 1));
+
+            for (Produto produto : paginarProdutos(produtos, paginaAtual)) {
+                System.out.println("[" + produto.getNome() + "] " + produto.getDescricao() +
+                        ". Preço: R$ " + produto.getPrecoFormatado());
+            }
+
+            System.out.println("Digite proxima, anterior ou sair: ");
+            String escolha = scanner.nextLine();
+
+            if (escolha.equalsIgnoreCase("Proxima")) paginaAtual += 1;
+            else if (escolha.equalsIgnoreCase("Anterior")) paginaAtual += -1;
+            else if (escolha.equalsIgnoreCase("Sair")) break;
+            else {
+                System.out.println("Opção Inválida!");
+            }
+        }
     }
 }
