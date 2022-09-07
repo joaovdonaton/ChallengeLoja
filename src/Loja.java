@@ -121,6 +121,7 @@ public class Loja {
                 while(quantidade == 0) {
                     System.out.print("Quantidade: ");
                     quantidade = promptOpcao();
+                    if(quantidade == 0) System.out.println(" \n [!] Quantidade inválida! \n");
                 }
 
                 if(produto.getQnt_estoque()-quantidade < 0){
@@ -194,7 +195,7 @@ public class Loja {
 
             //verificar se o usuário não está tentando acessar página inexistentes
             if((escolha.equalsIgnoreCase("Proxima") &&
-                    paginaAtual+1 > (produtos.size()%LIMITE_PAGINA != produtos.size() ? produtos.size()%LIMITE_PAGINA : 0) ||
+                    paginaAtual+1 > Math.floor(produtos.size()/(double)LIMITE_PAGINA) ||
                     (paginaAtual-1 < 0 && escolha.equalsIgnoreCase("Anterior")))){
                 System.out.println("\n [!] Essa pagína não existe!");
                 continue;
