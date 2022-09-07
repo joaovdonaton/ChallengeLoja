@@ -59,6 +59,7 @@ public class Login {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        carregarUsuarios();
     }
 
     public void setSenha(String senha) {

@@ -1,10 +1,10 @@
 public class Produto {
     private String nome;
     private String descricao;
-    private double preco;
+    private float preco;
     private int qnt_estoque;
 
-    Produto(String nome, String descricao, double preco, int qnt_estoque){
+    Produto(String nome, String descricao, float preco, int qnt_estoque){
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
@@ -15,7 +15,7 @@ public class Produto {
      * @return retorna o produto como String no formato NOME|DESCRIÇÃO|PREÇO|ESTOQUE
      */
     public String toString(){
-        return this.getNome() + "|" + this.getDescricao() + "|" + this.getPreco()
+        return this.getNome() + "|" + this.getDescricao() + "|" + getPrecoFormatado().replace(',', '.')
                 + "|" + this.getQnt_estoque();
     }
 
@@ -31,6 +31,10 @@ public class Produto {
 
     public double getPreco() {
         return preco;
+    }
+
+    public String getPrecoFormatado(){
+        return String.format("%.2f", this.preco);
     }
 
     public int getQnt_estoque() {

@@ -72,9 +72,9 @@ public class Loja {
         imprimirHeader("COMPRAS");
 
         Mercado mercado = new Mercado();
-        mercado.carregarProdutos();
-
         while(true) {
+            mercado.carregarProdutos();
+
             System.out.println("\n[1] Buscar produto");
             System.out.println("[2] Listar todos os produtos");
             System.out.println("[3] Adicionar o produto ao carrinho");
@@ -97,13 +97,13 @@ public class Loja {
 
                 for(Produto produto: produtos){
                     System.out.println("["+produto.getNome()+"] " + produto.getDescricao() +
-                            ". Preço: R$ " + produto.getPreco());
+                            ". Preço: R$ " + produto.getPrecoFormatado());
                 }
             }
             else if (opcao == 2) {//listar produtos
                 for(Produto produto: mercado.getProdutos()){
                     System.out.println("["+produto.getNome()+"] " + produto.getDescricao() +
-                            ". Preço: R$ " + produto.getPreco());
+                            ". Preço: R$ " + produto.getPrecoFormatado());
                 }
             }
             else if (opcao == 3) {//adicionar produto ao carrinho
@@ -135,16 +135,16 @@ public class Loja {
 
                 for(Map.Entry<Produto, Integer> produto: usuario.getCarrinho().entrySet()){
                     System.out.println(produto.getValue() + " x " + produto.getKey().getNome() + "(R$ " +
-                            produto.getKey().getPreco() + ")");
+                            produto.getKey().getPrecoFormatado() + ")");
                 }
 
-                System.out.println("Preço Total: R$ " + usuario.totalCarrinho());
+                System.out.println("Preço Total: R$ " + String.format("%.2f", usuario.totalCarrinho()));
             }
             else if (opcao == 5) {// finalizar compras
                 mercado.comprar(usuario);
 
                 System.out.println("Compra realizada com sucesso!");
-                System.out.println("Total: R$ " + usuario.totalCarrinho());
+                System.out.println("Total: R$ " + String.format("%.2f", usuario.totalCarrinho()));
 
                 //limpar carrinho
                 usuario.limparCarrinho();
