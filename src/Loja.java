@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -5,6 +6,7 @@ import java.util.Scanner;
 public class Loja {
     static Usuario usuario;
     static final Scanner scanner = new Scanner(System.in);
+    static final int LIMITE_PAGINA = 6;
 
     public static void main(String[] args) {
         imprimirHeader("LOGIN");
@@ -72,6 +74,7 @@ public class Loja {
         imprimirHeader("COMPRAS");
 
         Mercado mercado = new Mercado();
+        int paginaAtual = 0;
         while(true) {
             mercado.carregarProdutos();
 
@@ -101,10 +104,27 @@ public class Loja {
                 }
             }
             else if (opcao == 2) {//listar produtos
-                for(Produto produto: mercado.getProdutos()){
+
+                while(true) {
+                    System.out.println("Página " + (paginaAtual+1));
+
+                    for(Produto produto: paginarProdutos(mercado.getProdutos(), paginaAtual)){
+                        System.out.println("["+produto.getNome()+"] " + produto.getDescricao() +
+                                ". Preço: R$ " + produto.getPrecoFormatado());
+                    }
+
+                    System.out.println("Digite proxima, anterior ou sair: ");
+                    String escolha = scanner.nextLine();
+
+                    if(escolha.equalsIgnoreCase("Proxima")) paginaAtual++;
+                    else if(escolha.equalsIgnoreCase("Anterior")) paginaAtual--;
+                    else if(escolha.equalsIgnoreCase("Sair")) break;
+
+                }
+                /*for(Produto produto: mercado.getProdutos()){
                     System.out.println("["+produto.getNome()+"] " + produto.getDescricao() +
                             ". Preço: R$ " + produto.getPrecoFormatado());
-                }
+                }*/
             }
             else if (opcao == 3) {//adicionar produto ao carrinho
                 System.out.print("Nome do produto: ");
@@ -146,7 +166,6 @@ public class Loja {
                 System.out.println("Compra realizada com sucesso!");
                 System.out.println("Total: R$ " + String.format("%.2f", usuario.totalCarrinho()));
 
-                //limpar carrinho
                 usuario.limparCarrinho();
             }
             else if(opcao == 6){ // cadastrar prod
@@ -166,5 +185,15 @@ public class Loja {
         System.out.print(texto);
         for (int i = 0; i < 35; i++) System.out.print("-");
         System.out.println("\n");
+    }
+
+    static List<Produto> paginarProdutos(List<Produto> itens, int paginaAtual){
+        List<Produto> itensPagina = new ArrayList<>();
+        for(int i = LIMITE_PAGINA*(paginaAtual); i < LIMITE_PAGINA*(paginaAtual)+LIMITE_PAGINA; i++){
+            if(i >= itens.size()) break;
+            itensPagina.add(itens.get(i));
+        }
+
+        return itensPagina;
     }
 }

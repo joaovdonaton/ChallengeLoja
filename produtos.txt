@@ -4,3 +4,25 @@ Pringles|salgadinho bom|10.99|121
 Trinta Ovos|muitos ovos de galinha|40.12|0
 Banana Verde|Uma delicia|14.78|7
 Melancia 1kg| uma melancia bem grande|8.99|30
+Amaciante Concentrado 500ml|amaciente bem top|13.99|50
+Coca-Cola lata 350ml||3.19|100
+Cerveja Pilsen Chopp Brahma|beba com moderação|3.19|120
+Cerveja Duplo Malte Puro Malte||2.99|120
+Trident Melancia||1.99|900
+Desodorante Dove Men||26.99|100
+Tang Laranja 25g||1.19|100
+Tang Uva 25g||1.19|100
+Tang Goiaba 25g||1.19|100
+Milho para Pipoca Yoki||4.99|100
+Coca-Cola Original 220ml||2.19|100
+Cerveja Heineken Garrafa 330ml||5.99|100
+Club Social Regular||4.79|100
+Sobrecoxa de Frango Congelada||14.99|120
+Requeijao Cremoso Vigor 200g||8.79|2500
+Margina Cremosa com Sal||10.99|50
+Creme Dental Colgate Tripla 90g||5.09|300
+Detergente Ype Neutro 500ml||2.79|100
+Pao de Forma Tradicional 480g||7.99|120
+Saco Batata 1kg||0.79|120
+Arroz Branco Confiare 2kg||4.79|1000
+Azeitona Preta Confiare 160g||9.89|100
