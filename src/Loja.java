@@ -58,17 +58,16 @@ public class Loja {
             System.out.println("[4] Relatório (Administrador)");
             System.out.println("[5] Sair");
             System.out.print("\nEscolha uma opção: ");
-            int opcao = Integer.parseInt(scanner.nextLine());
-
+            int opcao = promptOpcao();
             if (opcao == 1) compras();
             else if (opcao == 2) autenticarUsuario();
             else if (opcao == 3) System.out.println("Loja virtual v1.0");
             else if (opcao == 4) {
             }
             else if (opcao == 5) System.exit(0);
-            else System.out.println("Opção inválida!");
+            else System.out.println("\n [!] Opção inválida!");
         }
-    }
+     }
 
     static void compras(){
         imprimirHeader("COMPRAS");
@@ -86,7 +85,7 @@ public class Loja {
             System.out.println("[6] Cadastrar Produto (Administrador)");
             System.out.println("[7] Voltar ao menu principal");
             System.out.print("\nEscolha uma opção: ");
-            int opcao = Integer.parseInt(scanner.nextLine());
+            int opcao = promptOpcao();
 
             if (opcao == 1) {//buscar produto
                 System.out.print("Nome do produto que deseja buscar: ");
@@ -102,7 +101,6 @@ public class Loja {
 
             }
             else if (opcao == 2) {//listar produtos
-
                 promptPaginacao(mercado.getProdutos());
             }
             else if (opcao == 3) {//adicionar produto ao carrinho
@@ -119,8 +117,11 @@ public class Loja {
                     continue;
                 }
 
-                System.out.print("Quantidade: ");
-                int quantidade = Integer.parseInt(scanner.nextLine());
+                int quantidade = 0;
+                while(quantidade == 0) {
+                    System.out.print("Quantidade: ");
+                    quantidade = promptOpcao();
+                }
 
                 if(produto.getQnt_estoque()-quantidade < 0){
                     System.out.println("Desculpe, mas só temos " + produto.getQnt_estoque() + " unidades de " +
@@ -128,6 +129,7 @@ public class Loja {
                 }
 
                 usuario.adicionarAoCarrinho(produto, quantidade);
+                System.out.println('\n' + produto.getNome() + " adicionado ao carrinho com sucesso! ");
             }
             else if (opcao == 4) {// exibir carrinho
                 System.out.println("Itens no Carrinho:\n");
@@ -153,7 +155,7 @@ public class Loja {
                 break;
             }
             else {
-                System.out.println("Opção inválida!");
+                System.out.println("\n [!] Opção inválida!");
             }
         }
     }
@@ -180,22 +182,43 @@ public class Loja {
         int paginaAtual = 0;
 
         while(true) {
-            System.out.println("Página " + (paginaAtual + 1));
+            System.out.println("\nPágina " + (paginaAtual + 1) + '\n');
 
             for (Produto produto : paginarProdutos(produtos, paginaAtual)) {
                 System.out.println("[" + produto.getNome() + "] " + produto.getDescricao() +
                         ". Preço: R$ " + produto.getPrecoFormatado());
             }
 
-            System.out.println("Digite proxima, anterior ou sair: ");
+            System.out.print("\nDigite proxima, anterior ou sair: ");
             String escolha = scanner.nextLine();
+
+            //verificar se o usuário não está tentando acessar página inexistentes
+            if((escolha.equalsIgnoreCase("Proxima") &&
+                    paginaAtual+1 > (produtos.size()%LIMITE_PAGINA != produtos.size() ? produtos.size()%LIMITE_PAGINA : 0) ||
+                    (paginaAtual-1 < 0 && escolha.equalsIgnoreCase("Anterior")))){
+                System.out.println("\n [!] Essa pagína não existe!");
+                continue;
+            }
 
             if (escolha.equalsIgnoreCase("Proxima")) paginaAtual += 1;
             else if (escolha.equalsIgnoreCase("Anterior")) paginaAtual += -1;
             else if (escolha.equalsIgnoreCase("Sair")) break;
             else {
-                System.out.println("Opção Inválida!");
+                System.out.println("\n [!] Opção Inválida!");
             }
+        }
+    }
+
+    /**
+     * Pede a opção ao usuário, verifica se o input é um int
+     * @return retorna a opção caso seja um int, e zero caso seja inválida
+     */
+    static int promptOpcao(){
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        }
+        catch (NumberFormatException e){
+            return 0;
         }
     }
 }
