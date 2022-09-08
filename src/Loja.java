@@ -21,8 +21,13 @@ public class Loja {
             Login login = new Login(user, senha);
             login.carregarUsuarios();
 
+            if(!login.validarCPF()){
+                System.out.println("\n [!] CPF inválido!");
+                continue;
+            }
+
             if(!login.usuarioExiste()){
-                System.out.println("Usuário não cadastrado.");
+                System.out.println("\n [!] Usuário não cadastrado.");
                 System.out.print("Deseja criar um novo usuário? [S/N]: ");
                 if(scanner.nextLine().equals("S")){
                     System.out.print("Crie sua senha: ");

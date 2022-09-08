@@ -62,6 +62,27 @@ public class Login {
         carregarUsuarios();
     }
 
+    boolean validarCPF(){
+        if(cpf.length() == 14) cpf = Usuario.desformatarCPF(cpf);
+        else if(cpf.length() != 11) return false;
+
+        int soma = 0;
+        for(int i = 10, j = 0; i >= 2; i--, j++){
+            soma += Integer.parseInt(String.valueOf(cpf.charAt(j)))*i;
+        }
+
+        if(!((soma*10)%11 == Integer.parseInt(String.valueOf(cpf.charAt(cpf.length()-2))))) return false;
+
+        soma = 0;
+        for(int i = 11, j = 0; i >= 2; i--, j++){
+            soma += Integer.parseInt(String.valueOf(cpf.charAt(j)))*i;
+        }
+
+        if(!((soma*10)%11 == Integer.parseInt(String.valueOf(cpf.charAt(cpf.length()-1))))) return false;
+
+        return true;
+    }
+
     public void setSenha(String senha) {
         this.senha = senha;
     }
