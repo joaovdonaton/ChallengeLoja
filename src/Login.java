@@ -42,13 +42,13 @@ public class Login {
     }
 
     Usuario validarLogin(){ //usuarios.get(cpf).equals(senha)
-        String senha = "";
-        for(Usuario u : usuarios.keySet()){
-            if(u.getCpf().equals(this.cpf)) senha = usuarios.get(u);
+        Map.Entry<Usuario, String> user = null;
+        for(Map.Entry<Usuario, String> u : usuarios.entrySet()){
+            if(u.getKey().getCpf().equals(this.cpf)) user = u;
         }
 
-        if(senha.equals(this.senha)) {
-            return new Usuario(cpf, true);
+        if(user.getValue().equals(this.senha)) {
+            return new Usuario(cpf, user.getKey().isAdmin());
         }
         return null;
     }

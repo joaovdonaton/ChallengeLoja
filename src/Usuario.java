@@ -21,6 +21,7 @@ public class Usuario {
     }
 
     public static String formatarCPF(String cpf){
+        if(cpf.length() != 11) return cpf; // retorna o cpf normal caso não seja formatável
         String[] chars = cpf.split("");
         return chars[0]+chars[1]+chars[2]+"."+chars[3]+chars[4]+chars[5]+"."+chars[6]+chars[7]+chars[8]+"-"+chars[9]+chars[10];
     }

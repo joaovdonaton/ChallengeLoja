@@ -21,7 +21,7 @@ public class Loja {
             Login login = new Login(user, senha);
             login.carregarUsuarios();
 
-            if(!login.validarCPF()){
+            if(!login.validarCPF() && !user.equalsIgnoreCase("admin")){
                 System.out.println("\n [!] CPF inválido!");
                 continue;
             }
@@ -70,7 +70,7 @@ public class Loja {
                     continue;
                 }
 
-                System.out.println("\n");
+                System.out.println("\nRelatório de Clientes (Ordenado por cliente que gerou mais receita): \n");
 
                 Mercado m = new Mercado();
                 List<Usuario> usuariosHistorico = m.carregarHistorico();
@@ -84,6 +84,8 @@ public class Loja {
                     cpfsDiferentes.add(u.getCpf());
                 }
 
+                Map<String, Float> usuariosFormatado = new HashMap<>();
+                float totalVendido = 0;
                 for(String cpf: cpfsDiferentes){
                     int numCompras = 0;
                     float totalComprado = 0;
@@ -96,11 +98,28 @@ public class Loja {
                         }
                     }
 
-                    System.out.printf("CPF: [%s] - Comprou %d produtos - Preço Total: %.2f - Preço Médio: %.2f",
-                            cpf, numCompras, totalComprado, totalComprado/numCompras);
-                    System.out.println("\n");
+                    totalVendido += totalComprado;
+                    usuariosFormatado.put(String.format("CPF: [%s] - Comprou %d produtos - Preço Total: R$ %.2f - Preço Médio: R$ %.2f \n",
+                            Usuario.formatarCPF(cpf), numCompras, totalComprado, totalComprado/numCompras), totalComprado);
+
                 }
 
+                //ordenar por maior receita
+                List<Float> valueList = new ArrayList<Float>((usuariosFormatado.values()));
+                Collections.sort(valueList);
+                Collections.reverse(valueList);
+
+                for(float v: valueList){
+                    for(Map.Entry<String, Float> e : usuariosFormatado.entrySet()){
+                        if(e.getValue() == v){
+                            System.out.println(e.getKey());
+                            usuariosFormatado.remove(e.getKey()); // essa linha concerta o problema se dois tiverem o msm preço
+                            break;
+                        }
+                    }
+                }
+
+                System.out.printf("\nReceita Total: R$ %.2f\n", totalVendido);
             }
             else if (opcao == 5) System.exit(0);
             else System.out.println("\n [!] Opção inválida!");
