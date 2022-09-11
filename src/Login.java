@@ -3,8 +3,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Login {
-    private static final String ADMIN_USUARIO = "admin";
-    private static final String ADMIN_SENHA = "admin";
     private static final String PATH_USUARIOS = "./usuarios.txt";
     private String cpf;
     private String senha;
@@ -34,6 +32,9 @@ public class Login {
         }
     }
 
+    /**
+     * Deve ser chamado antes de validarLogin()
+     */
     boolean usuarioExiste(){
         for(Usuario u: usuarios.keySet()){
             if(u.getCpf().equals(this.cpf)) return true;
@@ -41,7 +42,7 @@ public class Login {
         return false;
     }
 
-    Usuario validarLogin(){ //usuarios.get(cpf).equals(senha)
+    Usuario validarLogin(){
         Map.Entry<Usuario, String> user = null;
         for(Map.Entry<Usuario, String> u : usuarios.entrySet()){
             if(u.getKey().getCpf().equals(this.cpf)) user = u;

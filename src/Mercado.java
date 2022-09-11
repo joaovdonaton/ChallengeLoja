@@ -24,8 +24,7 @@ public class Mercado {
     }
 
     /**
-     * @param p deve ser o mesmo produto que está em this.produtos, logo p deve vir de getProdutos()
-     * @param quantidade
+     * @param p deve ser o mesmo produto que está em this.produtos, logo p deve vir de getProduto()
      */
     void adicionarQuantidadeAoEstoque(Produto p, int quantidade){
         for(Produto produto: produtos){ // atualizar estoque

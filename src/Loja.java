@@ -43,7 +43,7 @@ public class Loja {
 
             usuario = login.validarLogin();
             if(usuario != null){
-                System.out.println("Login realizado com sucesso! Logado como: " + usuario.getCpf());
+                System.out.println("Login realizado com sucesso! Logado como: " + Usuario.formatarCPF(usuario.getCpf()));
                 break;
             }
             else{
@@ -190,7 +190,7 @@ public class Loja {
                 }
 
                 usuario.adicionarAoCarrinho(produto, quantidade);
-                System.out.println('\n' + produto.getNome() + " adicionado ao carrinho com sucesso! ");
+                System.out.println('\n' + produto.getNome() + " x " + quantidade + " adicionado ao carrinho com sucesso! ");
             }
             else if (opcao == 4) {// exibir carrinho
                 System.out.println("Itens no Carrinho:\n");
@@ -241,6 +241,9 @@ public class Loja {
         System.out.println("\n");
     }
 
+    /**
+     * @return retorna todos os produtos da lista itens que estarão presentes na página paginaAtual.
+     */
     static List<Produto> paginarProdutos(List<Produto> itens, int paginaAtual){
         List<Produto> itensPagina = new ArrayList<>();
         for(int i = LIMITE_PAGINA*(paginaAtual); i < LIMITE_PAGINA*(paginaAtual)+LIMITE_PAGINA; i++){
@@ -251,6 +254,9 @@ public class Loja {
         return itensPagina;
     }
 
+    /**
+     * @param conteudoPaginacao classe que implementa a interface ConteudoPaginação.
+     */
     static void  promptPaginacao(List<Produto> produtos, ConteudoPaginacao conteudoPaginacao){
         int paginaAtual = 0;
 
