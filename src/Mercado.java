@@ -22,6 +22,39 @@ public class Mercado {
 
         carregarProdutos();
     }
+
+    /**
+     * @param p deve ser o mesmo produto que está em this.produtos, logo p deve vir de getProdutos()
+     * @param quantidade
+     */
+    void adicionarQuantidadeAoEstoque(Produto p, int quantidade){
+        for(Produto produto: produtos){ // atualizar estoque
+            if(produto.equals(p)){
+                produto.adicionarEstoque(quantidade);
+            }
+        }
+
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_PRODUTOS, false))){
+            for(Produto produto: produtos) {
+                bw.append(produto.toString() + "\n");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    void removerProdutoDoEstoque(Produto p){
+        this.produtos.remove(p);
+
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_PRODUTOS, false))){
+            for(Produto produto: produtos) {
+                bw.append(produto.toString() + "\n");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     void carregarProdutos(){
         produtos.clear();
         try(BufferedReader br = new BufferedReader(new FileReader(PATH_PRODUTOS))){

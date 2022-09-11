@@ -47,4 +47,8 @@ public class Produto {
             throw new IllegalArgumentException("Não é possível remover uma quantidade maior que o estoque");
         }
     }
+
+    public void adicionarEstoque(int quantidade){
+        this.qnt_estoque += quantidade;
+    }
 }

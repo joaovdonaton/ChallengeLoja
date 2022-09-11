@@ -139,7 +139,7 @@ public class Loja {
             System.out.println("[3] Adicionar o produto ao carrinho");
             System.out.println("[4] Exibir carrinho");
             System.out.println("[5] Finalizar compras");
-            System.out.println("[6] Cadastrar Produto (Administrador)");
+            System.out.println("[6] Gerenciar Estoque (Administrador)");
             System.out.println("[7] Voltar ao menu principal");
             System.out.print("\nEscolha uma opção: ");
             int opcao = promptOpcao();
@@ -154,11 +154,13 @@ public class Loja {
 
                 System.out.printf("\n%d produtos encontrados! \n\n", produtos.size());
 
-                promptPaginacao(produtos);
+                promptPaginacao(produtos, (produto) -> "[" + produto.getNome() + "] " + produto.getDescricao() +
+                        ". Preço: R$ " + produto.getPrecoFormatado());
 
             }
             else if (opcao == 2) {//listar produtos
-                promptPaginacao(mercado.getProdutos());
+                promptPaginacao(mercado.getProdutos(), (produto) -> "[" + produto.getNome() + "] " + produto.getDescricao() +
+                        ". Preço: R$ " + produto.getPrecoFormatado());
             }
             else if (opcao == 3) {//adicionar produto ao carrinho
                 System.out.print("Nome do produto: ");
@@ -214,7 +216,13 @@ public class Loja {
 
                 usuario.limparCarrinho();
             }
-            else if(opcao == 6){ // cadastrar prod
+            else if(opcao == 6){ // gerenciar estoque
+                if(!usuario.isAdmin()){
+                    System.out.println("\n [!] Você não é um administrador! ");
+                    continue;
+                }
+
+                gerenciarEstoque(mercado);
             }
             else if(opcao == 7){
                 break;
@@ -243,15 +251,14 @@ public class Loja {
         return itensPagina;
     }
 
-    static void  promptPaginacao(List<Produto> produtos){
+    static void  promptPaginacao(List<Produto> produtos, ConteudoPaginacao conteudoPaginacao){
         int paginaAtual = 0;
 
         while(true) {
             System.out.println("\nPágina " + (paginaAtual + 1) + '\n');
 
             for (Produto produto : paginarProdutos(produtos, paginaAtual)) {
-                System.out.println("[" + produto.getNome() + "] " + produto.getDescricao() +
-                        ". Preço: R$ " + produto.getPrecoFormatado());
+                System.out.println(conteudoPaginacao.stringPorListagem(produto));
             }
 
             System.out.print("\nDigite proxima, anterior ou sair: ");
@@ -270,6 +277,68 @@ public class Loja {
             else if (escolha.equalsIgnoreCase("Sair")) break;
             else {
                 System.out.println("\n [!] Opção Inválida!");
+            }
+        }
+    }
+
+    static void gerenciarEstoque(Mercado mercado){
+        while(true){
+            imprimirHeader("GERENCIADOR DE ESTOQUE");
+
+            System.out.println("\n[1] Cadastrar produto");
+            System.out.println("[2] Visualizar estoque");
+            System.out.println("[3] Adicionar ao estoque");
+            System.out.println("[4] Remover produto");
+            System.out.println("[5] Voltar às compras");
+            System.out.print("\nEscolha uma opção: ");
+            int opcao = promptOpcao();
+
+            if(opcao == 1){
+                System.out.println("Nome: ");
+                String nome = scanner.nextLine();
+                System.out.println("Preço (use vírgula para casas decimais):");
+                float preco = Float.parseFloat(scanner.nextLine().replace(',', '.'));
+                System.out.println("Descrição: ");
+                String descricao = scanner.nextLine();
+                System.out.println("Quantidade no estoque:");
+                int qnt = Integer.parseInt(scanner.nextLine());
+
+                mercado.cadastrarProduto(new Produto(nome, descricao, preco, qnt));
+            }
+            else if(opcao == 2){
+                promptPaginacao(mercado.getProdutos(), (produto) -> "[" + produto.getNome() + "] Quantidade Disponível: " + produto.getQnt_estoque());
+            }
+            else if(opcao == 3){
+                System.out.println("Nome: ");
+                String nome = scanner.nextLine();
+
+                Produto p = mercado.getProduto(nome);
+                if(p == null){
+                    System.out.println("\n [!] Produto não encontrado!");
+                    continue;
+                }
+
+                System.out.println("Quantidade a ser adicionada: ");
+                int quantidade = Integer.parseInt(scanner.nextLine());
+
+                mercado.adicionarQuantidadeAoEstoque(p, quantidade);
+            }
+            else if(opcao == 4){
+                System.out.println("Nome: ");
+                String nome = scanner.nextLine();
+
+                Produto p = mercado.getProduto(nome);
+                if(p == null){
+                    System.out.println("\n [!] Produto não encontrado!");
+                    continue;
+                }
+
+                mercado.removerProdutoDoEstoque(p);
+                System.out.println("\nProduto Removido com sucesso!");
+            }
+            else if(opcao == 5) break;
+            else{
+                System.out.println("\n [!] Opção inválida!");
             }
         }
     }
