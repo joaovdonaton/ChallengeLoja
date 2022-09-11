@@ -63,7 +63,7 @@ public class Loja {
             int opcao = promptOpcao();
             if (opcao == 1) compras();
             else if (opcao == 2) autenticarUsuario();
-            else if (opcao == 3) System.out.println("Loja virtual v1.0");
+            else if (opcao == 3) System.out.println("Mercadinho Virtual v1.0 - Desenvolvido por João Vitor Macambira Donaton");
             else if (opcao == 4) { // relatório
                 if(!usuario.isAdmin()){
                     System.out.println("\n [!] Você não é um administrador! ");
