@@ -1,15 +1,15 @@
-Doritos|salgadinho de milho|9.89|420
+Doritos|salgadinho de milho|9.89|10435
 Dezena Ovos|ovos de galinha|18.78|19
 Pringles|salgadinho bom|10.99|89
 Trinta Ovos|muitos ovos de galinha|40.12|0
 Banana Verde|Uma delicia|14.78|2
 Melancia 1kg| uma melancia bem grande|8.99|27
 Amaciante Concentrado 500ml|amaciente bem top|13.99|50
-Coca-Cola lata 350ml||3.19|80
+Coca-Cola lata 350ml||3.19|45
 Cerveja Pilsen Chopp Brahma|beba com moderação|3.19|120
 Cerveja Duplo Malte Puro Malte||2.99|70
 Trident Melancia||1.99|900
-Desodorante Dove Men||26.99|98
+Desodorante Dove Men||26.99|97
 Tang Laranja 25g||1.19|100
 Tang Uva 25g||1.19|90
 Tang Goiaba 25g||1.19|100
@@ -26,3 +26,5 @@ Saco Batata 1kg||0.79|110
 Arroz Branco Confiare 2kg||4.79|1000
 Azeitona Preta Confiare 160g||9.89|100
 Crik Crok|salgadinho de milho italiano|10.99|30
+Abacaxi 1kg|um abacaxi bem grande|5.00|125
+Coca-cola 1L|refrigerante de cola|8.99|100
