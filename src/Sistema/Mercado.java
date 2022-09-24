@@ -161,7 +161,7 @@ public class Mercado {
             String linha = "";
             while((linha = br.readLine()) != null){
                 String[] dados = linha.split("\\|");
-                Usuario u = new Usuario(dados[0], false);
+                Usuario u = new Usuario(dados[0], false, null);
                 for(int i = 2; i < Integer.parseInt(dados[1])+2; i++) {
                     String[] item = dados[i].split("@");
                     u.adicionarAoCarrinho(new Produto(item[0], null, Float.parseFloat(item[2]), 0), Integer.parseInt(item[1]));

@@ -3,14 +3,19 @@ package Sistema;
 import Objetos.Usuario;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Login {
     private static final String PATH_USUARIOS = "./usuarios.txt";
     private String cpf;
     private String senha;
-    private static final Map<Usuario, String> usuarios = new HashMap<>(); //usuario, senha
+    private static final DataBase<Usuario> DB = new DataBase<>(PATH_USUARIOS, (linha) -> {
+        String[] dados = linha.split("\\|");
+        return new Usuario(dados[0], dados[2].equals("1"), dados[1]);
+    });
 
     public Login(String cpf, String senha) {
         this.cpf = cpf;
@@ -21,50 +26,36 @@ public class Login {
      * Carrega os usuário do arquivo no local PATH_USUARIOS, FORMATO: CPF|SENHA|IS_ADMIN
      */
     public void carregarUsuarios(){
-        usuarios.clear();
-        try(BufferedReader br = new BufferedReader(new FileReader(PATH_USUARIOS))){
-            String linha;
-            Usuario u;
-            while((linha = br.readLine()) != null){
-                String[] dados = linha.split("\\|");
-                usuarios.put(new Usuario(dados[0], dados[2].equals("1")), dados[1]);
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        DB.carregarDados();
     }
 
     /**
      * Deve ser chamado antes de validarLogin()
      */
     public boolean usuarioExiste(){
-        for(Usuario u: usuarios.keySet()){
+        for(Usuario u: DB.getDados()){
             if(u.getCpf().equals(this.cpf)) return true;
         }
         return false;
     }
 
     public Usuario validarLogin(){
-        Map.Entry<Usuario, String> user = null;
-        for(Map.Entry<Usuario, String> u : usuarios.entrySet()){
-            if(u.getKey().getCpf().equals(this.cpf)) user = u;
+        Usuario user = null;
+        for(Usuario u : DB.getDados()){
+            if(u.getCpf().equals(this.cpf)) user = u;
         }
 
-        if(user.getValue().equals(this.senha)) {
-            return new Usuario(cpf, user.getKey().isAdmin());
+        if(user == null) return null;
+
+        if(user.getSenha().equals(this.senha)) {
+            return new Usuario(cpf, user.isAdmin(), senha);
         }
         return null;
     }
 
     public void cadastrarUsuario(){
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_USUARIOS, true))){
-            bw.append(this.cpf + "|" + this.senha + "|" + "0" + "\n");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        carregarUsuarios();
+        DB.add(new Usuario(cpf, false, senha));
+        DB.salvarDados();
     }
 
     public boolean validarCPF(){

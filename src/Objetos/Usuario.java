@@ -1,17 +1,26 @@
 package Objetos;
 
+import Interfaces.Armazenavel;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class Usuario {
+public class Usuario implements Armazenavel {
     private String cpf;
     private Map<Produto, Integer> carrinho; //Objetos.Produto, Quantidade
     private boolean admin;
 
-    public Usuario(String cpf, boolean admin){
+    public String getSenha() {
+        return senha;
+    }
+
+    private String senha;
+
+    public Usuario(String cpf, boolean admin, String senha){
         this.cpf = cpf;
         this.admin = admin;
         carrinho = new HashMap<>();
+        this.senha = senha;
     }
 
     public boolean isAdmin(){
@@ -49,5 +58,10 @@ public class Usuario {
 
     public void limparCarrinho(){
         this.carrinho.clear();
+    }
+
+    @Override
+    public String criarLinha() {
+        return this.cpf + "|" + this.senha + "|" + "0";
     }
 }

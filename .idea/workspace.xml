@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f33e6dde-b853-4cbf-a257-2401b0568e0a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Interfaces/Armazenavel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Interfaces/FormatoDB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Sistema/DataBase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Loja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Loja.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Objetos/HistoricoDoUsuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Objetos/HistoricoDoUsuario.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Objetos/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Objetos/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Sistema/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sistema/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Sistema/Mercado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sistema/Mercado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usuarios.txt" beforeDir="false" afterPath="$PROJECT_DIR$/usuarios.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
