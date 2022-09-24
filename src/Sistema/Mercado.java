@@ -1,3 +1,8 @@
+package Sistema;
+
+import Objetos.Produto;
+import Objetos.Usuario;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +17,7 @@ public class Mercado {
      * Cadastra o objeto produto no produtos.txt, FORMATO: NOME|DESCRIÇÃO|PREÇO|ESTOQUE
      * @param produto objeto da class Product que contem as informações para cadastrar o produto
      */
-    void cadastrarProduto(Produto produto){
+    public void cadastrarProduto(Produto produto){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_PRODUTOS, true))) {
             bw.append((produto.toString() + "\n"));
         }
@@ -26,7 +31,7 @@ public class Mercado {
     /**
      * @param p deve ser o mesmo produto que está em this.produtos, logo p deve vir de getProduto()
      */
-    void adicionarQuantidadeAoEstoque(Produto p, int quantidade){
+    public void adicionarQuantidadeAoEstoque(Produto p, int quantidade){
         for(Produto produto: produtos){ // atualizar estoque
             if(produto.equals(p)){
                 produto.adicionarEstoque(quantidade);
@@ -42,7 +47,7 @@ public class Mercado {
         }
     }
 
-    void removerProdutoDoEstoque(Produto p){
+    public void removerProdutoDoEstoque(Produto p){
         this.produtos.remove(p);
 
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_PRODUTOS, false))){
@@ -54,7 +59,7 @@ public class Mercado {
         }
     }
 
-    void carregarProdutos(){
+    public void carregarProdutos(){
         produtos.clear();
         try(BufferedReader br = new BufferedReader(new FileReader(PATH_PRODUTOS))){
             String linha;
@@ -73,7 +78,7 @@ public class Mercado {
      * @param busca palavra chave para busca nos nomes
      * @return List de Produtos
      */
-    List<Produto> buscarProdutos(String busca){
+    public List<Produto> buscarProdutos(String busca){
         List<Produto> encontrados = new ArrayList<>();
         for(Produto produto: produtos){
             for(String palavra: produto.getNome().split(" ")){
@@ -86,7 +91,7 @@ public class Mercado {
         return encontrados;
     }
 
-    List<Produto> getProdutos(){
+    public List<Produto> getProdutos(){
         return produtos;
     }
 
@@ -94,7 +99,7 @@ public class Mercado {
      * @param nome nome exato do produto
      * @return produto, null se não encontrar
      */
-    Produto getProduto(String nome){
+    public Produto getProduto(String nome){
         Produto p = null;
         for(Produto produto: produtos){
             if(produto.getNome().equalsIgnoreCase(nome)){
@@ -109,7 +114,7 @@ public class Mercado {
     /**
      * Compra o carrinho do usuario, removendo as quantidades compradas da base de dados.
      */
-    void comprar(Usuario usuario){
+    public void comprar(Usuario usuario){
         for(Map.Entry<Produto, Integer> produto: usuario.getCarrinho().entrySet()){ // remover os itens do estoque
             for(Produto p: produtos){
                 if(produto.getKey().getNome().equals(p.getNome())){
@@ -133,7 +138,7 @@ public class Mercado {
      * FORMATO DE ITEM_N: NOME@QUANTIDADE@PRECOPAGO
      * @param usuario
      */
-    void salvarCompraNoHistorico(Usuario usuario){
+    public void salvarCompraNoHistorico(Usuario usuario){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_HISTORICO, true))){
             bw.append(usuario.getCpf() + "|" + usuario.getCarrinho().size());
             for(Map.Entry<Produto, Integer> e: usuario.getCarrinho().entrySet()){
@@ -146,11 +151,11 @@ public class Mercado {
     }
 
     /**
-     * @return uma list em que cada Usuario representa uma compra passada. Importante
+     * @return uma list em que cada Objetos.Usuario representa uma compra passada. Importante
      * notar que a descrição e a quantidade do estoque são null e zero respectivamente, visto que não são
      * úteis para o histórico.
      */
-    List<Usuario> carregarHistorico(){
+    public List<Usuario> carregarHistorico(){
         List<Usuario> usuarios = new ArrayList<>();
         try(BufferedReader br = new BufferedReader(new FileReader(PATH_HISTORICO))){
             String linha = "";

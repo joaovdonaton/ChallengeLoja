@@ -1,9 +1,11 @@
+package Objetos;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Usuario {
     private String cpf;
-    private Map<Produto, Integer> carrinho; //Produto, Quantidade
+    private Map<Produto, Integer> carrinho; //Objetos.Produto, Quantidade
     private boolean admin;
 
     public Usuario(String cpf, boolean admin){
@@ -12,7 +14,7 @@ public class Usuario {
         carrinho = new HashMap<>();
     }
 
-    boolean isAdmin(){
+    public boolean isAdmin(){
         return admin;
     }
 

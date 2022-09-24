@@ -1,10 +1,12 @@
+package Objetos;
+
 public class Produto {
     private String nome;
     private String descricao;
     private float preco;
     private int qnt_estoque;
 
-    Produto(String nome, String descricao, float preco, int qnt_estoque){
+    public Produto(String nome, String descricao, float preco, int qnt_estoque){
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;

@@ -1,9 +1,17 @@
+import Interfaces.ConteudoPaginacao;
+import Objetos.HistoricoDoUsuario;
+import Objetos.Produto;
+import Objetos.Usuario;
+import Sistema.Login;
+import Sistema.Mercado;
+import Sistema.Paginador;
+
 import java.util.*;
 
 public class Loja {
     static Usuario usuario;
     static final Scanner scanner = new Scanner(System.in);
-    static final int LIMITE_PAGINA = 6;
+    static final int LIMITE_PAGINA = 3;
 
     public static void main(String[] args) {
         imprimirHeader("LOGIN");
@@ -43,7 +51,7 @@ public class Loja {
 
             usuario = login.validarLogin();
             if(usuario != null){
-                System.out.println("Login realizado com sucesso! Logado como: " + Usuario.formatarCPF(usuario.getCpf()));
+                System.out.println("Sistema.Login realizado com sucesso! Logado como: " + Usuario.formatarCPF(usuario.getCpf()));
                 break;
             }
             else{
@@ -84,7 +92,7 @@ public class Loja {
                     cpfsDiferentes.add(u.getCpf());
                 }
 
-                Map<String, Float> usuariosFormatado = new HashMap<>();
+                Map<HistoricoDoUsuario, Float> usuariosFormatado = new HashMap<>();
                 float totalVendido = 0;
                 for(String cpf: cpfsDiferentes){
                     int numCompras = 0;
@@ -99,8 +107,7 @@ public class Loja {
                     }
 
                     totalVendido += totalComprado;
-                    usuariosFormatado.put(String.format("CPF: [%s] - Comprou %d produtos - Preço Total: R$ %.2f - Preço Médio: R$ %.2f \n",
-                            Usuario.formatarCPF(cpf), numCompras, totalComprado, totalComprado/numCompras), totalComprado);
+                    usuariosFormatado.put(new HistoricoDoUsuario(cpf, numCompras, totalComprado), totalComprado);
 
                 }
 
@@ -109,15 +116,18 @@ public class Loja {
                 Collections.sort(valueList);
                 Collections.reverse(valueList);
 
+                List<HistoricoDoUsuario> historico = new ArrayList<>();
                 for(float v: valueList){
-                    for(Map.Entry<String, Float> e : usuariosFormatado.entrySet()){
+                    for(Map.Entry<HistoricoDoUsuario, Float> e : usuariosFormatado.entrySet()){
                         if(e.getValue() == v){
-                            System.out.println(e.getKey());
+                            historico.add(e.getKey());
                             usuariosFormatado.remove(e.getKey()); // essa linha concerta o problema se dois tiverem o msm preço
                             break;
                         }
                     }
                 }
+
+                new Paginador(historico, (i -> i.toString()), 3).promptPaginacao();
 
                 System.out.printf("\nReceita Total: R$ %.2f\n", totalVendido);
             }
@@ -130,7 +140,6 @@ public class Loja {
         imprimirHeader("COMPRAS");
 
         Mercado mercado = new Mercado();
-        int paginaAtual = 0;
         while(true) {
             mercado.carregarProdutos();
 
@@ -154,20 +163,20 @@ public class Loja {
 
                 System.out.printf("\n%d produtos encontrados! \n\n", produtos.size());
 
-                promptPaginacao(produtos, (produto) -> "[" + produto.getNome() + "] " + produto.getDescricao() +
-                        ". Preço: R$ " + produto.getPrecoFormatado());
+                new Paginador<>(produtos, (produto) -> "[" + produto.getNome() + "] " + produto.getDescricao() +
+                        ". Preço: R$ " + produto.getPrecoFormatado(), 5).promptPaginacao();
 
             }
             else if (opcao == 2) {//listar produtos
-                promptPaginacao(mercado.getProdutos(), (produto) -> "[" + produto.getNome() + "] " + produto.getDescricao() +
-                        ". Preço: R$ " + produto.getPrecoFormatado());
+               new Paginador<>(mercado.getProdutos(), (produto) -> "[" + produto.getNome() + "] " + produto.getDescricao() +
+                        ". Preço: R$ " + produto.getPrecoFormatado(), 5).promptPaginacao();
             }
             else if (opcao == 3) {//adicionar produto ao carrinho
                 System.out.print("Nome do produto: ");
                 Produto produto = mercado.getProduto(scanner.nextLine());
 
                 if(produto == null){
-                    System.out.println("Produto não encontrado.");
+                    System.out.println("Objetos.Produto não encontrado.");
                     continue;
                 }
 
@@ -241,52 +250,6 @@ public class Loja {
         System.out.println("\n");
     }
 
-    /**
-     * @return retorna todos os produtos da lista itens que estarão presentes na página paginaAtual.
-     */
-    static List<Produto> paginarProdutos(List<Produto> itens, int paginaAtual){
-        List<Produto> itensPagina = new ArrayList<>();
-        for(int i = LIMITE_PAGINA*(paginaAtual); i < LIMITE_PAGINA*(paginaAtual)+LIMITE_PAGINA; i++){
-            if(i >= itens.size()) break;
-            itensPagina.add(itens.get(i));
-        }
-
-        return itensPagina;
-    }
-
-    /**
-     * @param conteudoPaginacao classe que implementa a interface ConteudoPaginação.
-     */
-    static void  promptPaginacao(List<Produto> produtos, ConteudoPaginacao conteudoPaginacao){
-        int paginaAtual = 0;
-
-        while(true) {
-            System.out.println("\nPágina " + (paginaAtual + 1) + '\n');
-
-            for (Produto produto : paginarProdutos(produtos, paginaAtual)) {
-                System.out.println(conteudoPaginacao.stringPorListagem(produto));
-            }
-
-            System.out.print("\nDigite proxima, anterior ou sair: ");
-            String escolha = scanner.nextLine();
-
-            //verificar se o usuário não está tentando acessar página inexistentes
-            if((escolha.equalsIgnoreCase("Proxima") &&
-                    paginaAtual+1 > Math.floor(produtos.size()/(double)LIMITE_PAGINA) ||
-                    (paginaAtual-1 < 0 && escolha.equalsIgnoreCase("Anterior")))){
-                System.out.println("\n [!] Essa pagína não existe!");
-                continue;
-            }
-
-            if (escolha.equalsIgnoreCase("Proxima")) paginaAtual += 1;
-            else if (escolha.equalsIgnoreCase("Anterior")) paginaAtual += -1;
-            else if (escolha.equalsIgnoreCase("Sair")) break;
-            else {
-                System.out.println("\n [!] Opção Inválida!");
-            }
-        }
-    }
-
     static void gerenciarEstoque(Mercado mercado){
         while(true){
             imprimirHeader("GERENCIADOR DE ESTOQUE");
@@ -312,7 +275,9 @@ public class Loja {
                 mercado.cadastrarProduto(new Produto(nome, descricao, preco, qnt));
             }
             else if(opcao == 2){
-                promptPaginacao(mercado.getProdutos(), (produto) -> "[" + produto.getNome() + "] Quantidade Disponível: " + produto.getQnt_estoque());
+                new Paginador<>(
+                        mercado.getProdutos(), (produto) -> "[" + produto.getNome() + "] Quantidade Disponível: " + produto.getQnt_estoque(),
+                        5).promptPaginacao();
             }
             else if(opcao == 3){
                 System.out.println("Nome: ");
@@ -320,7 +285,7 @@ public class Loja {
 
                 Produto p = mercado.getProduto(nome);
                 if(p == null){
-                    System.out.println("\n [!] Produto não encontrado!");
+                    System.out.println("\n [!] Objetos.Produto não encontrado!");
                     continue;
                 }
 
@@ -335,12 +300,12 @@ public class Loja {
 
                 Produto p = mercado.getProduto(nome);
                 if(p == null){
-                    System.out.println("\n [!] Produto não encontrado!");
+                    System.out.println("\n [!] Objetos.Produto não encontrado!");
                     continue;
                 }
 
                 mercado.removerProdutoDoEstoque(p);
-                System.out.println("\nProduto Removido com sucesso!");
+                System.out.println("\nObjetos.Produto Removido com sucesso!");
             }
             else if(opcao == 5) break;
             else{

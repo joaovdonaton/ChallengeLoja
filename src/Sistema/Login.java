@@ -1,3 +1,7 @@
+package Sistema;
+
+import Objetos.Usuario;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +20,7 @@ public class Login {
     /**
      * Carrega os usuário do arquivo no local PATH_USUARIOS, FORMATO: CPF|SENHA|IS_ADMIN
      */
-    void carregarUsuarios(){
+    public void carregarUsuarios(){
         usuarios.clear();
         try(BufferedReader br = new BufferedReader(new FileReader(PATH_USUARIOS))){
             String linha;
@@ -35,14 +39,14 @@ public class Login {
     /**
      * Deve ser chamado antes de validarLogin()
      */
-    boolean usuarioExiste(){
+    public boolean usuarioExiste(){
         for(Usuario u: usuarios.keySet()){
             if(u.getCpf().equals(this.cpf)) return true;
         }
         return false;
     }
 
-    Usuario validarLogin(){
+    public Usuario validarLogin(){
         Map.Entry<Usuario, String> user = null;
         for(Map.Entry<Usuario, String> u : usuarios.entrySet()){
             if(u.getKey().getCpf().equals(this.cpf)) user = u;
@@ -54,7 +58,7 @@ public class Login {
         return null;
     }
 
-    void cadastrarUsuario(){
+    public void cadastrarUsuario(){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_USUARIOS, true))){
             bw.append(this.cpf + "|" + this.senha + "|" + "0" + "\n");
         } catch (IOException e) {
@@ -63,7 +67,7 @@ public class Login {
         carregarUsuarios();
     }
 
-    boolean validarCPF(){
+    public boolean validarCPF(){
         if(cpf.length() == 14) cpf = Usuario.desformatarCPF(cpf);
         else if(cpf.length() != 11) return false;
 
