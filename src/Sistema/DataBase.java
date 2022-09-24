@@ -5,7 +5,6 @@ import Interfaces.FormatoDB;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class DataBase <T extends Armazenavel>{
@@ -46,8 +45,15 @@ public class DataBase <T extends Armazenavel>{
         this.dados.add(e);
     }
 
+    /**
+     * PERIGO! getDados retorna o dados modificável, para que seja possível alterar os itens e depois salvá-los na
+     * base de dados.
+     */
     List<T> getDados(){
-        return Collections.unmodifiableList(dados);
+        return dados;
     }
 
+    void setDados(List<T> dados){
+        this.dados = dados;
+    }
 }

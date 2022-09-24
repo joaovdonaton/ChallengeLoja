@@ -8,3 +8,5 @@
 06267107159|1|Saco Batata 1kg@10@0.79
 06267107159|2|Desodorante Dove Men@1@26.99|Coca-Cola lata 350ml@20@3.19
 06267107159|1|Coca-Cola lata 350ml@15@3.19
+06267107159|1|Tang Goiaba 25g@25@1.19
+06267107159|2|Coca-Cola lata 350ml@10@3.19|Doritos@100@9.89

@@ -62,6 +62,6 @@ public class Usuario implements Armazenavel {
 
     @Override
     public String criarLinha() {
-        return this.cpf + "|" + this.senha + "|" + "0";
+        return this.cpf + "|" + this.senha + "|" + ( isAdmin() ? "1" : "0");
     }
 }

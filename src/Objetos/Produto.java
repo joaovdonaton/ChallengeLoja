@@ -1,6 +1,8 @@
 package Objetos;
 
-public class Produto {
+import Interfaces.Armazenavel;
+
+public class Produto implements Armazenavel {
     private String nome;
     private String descricao;
     private float preco;
@@ -19,6 +21,14 @@ public class Produto {
     public String toString(){
         return this.getNome() + "|" + this.getDescricao() + "|" + getPrecoFormatado().replace(',', '.')
                 + "|" + this.getQnt_estoque();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Produto produto) {
+            return (this == obj) || this.getNome().equalsIgnoreCase(produto.getNome());
+        }
+        return false;
     }
 
     public String getNome() {
@@ -52,5 +62,10 @@ public class Produto {
 
     public void adicionarEstoque(int quantidade){
         this.qnt_estoque += quantidade;
+    }
+
+    @Override
+    public String criarLinha() {
+        return this.toString();
     }
 }
