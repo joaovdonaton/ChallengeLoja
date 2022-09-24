@@ -1,4 +1,3 @@
-import Interfaces.ConteudoPaginacao;
 import Objetos.HistoricoDoUsuario;
 import Objetos.Produto;
 import Objetos.Usuario;
@@ -11,7 +10,6 @@ import java.util.*;
 public class Loja {
     static Usuario usuario;
     static final Scanner scanner = new Scanner(System.in);
-    static final int LIMITE_PAGINA = 3;
 
     public static void main(String[] args) {
         imprimirHeader("LOGIN");
@@ -51,7 +49,7 @@ public class Loja {
 
             usuario = login.validarLogin();
             if(usuario != null){
-                System.out.println("Sistema.Login realizado com sucesso! Logado como: " + Usuario.formatarCPF(usuario.getCpf()));
+                System.out.println("Login realizado com sucesso! Logado como: " + Usuario.formatarCPF(usuario.getCpf()));
                 break;
             }
             else{
@@ -92,7 +90,7 @@ public class Loja {
                     cpfsDiferentes.add(u.getCpf());
                 }
 
-                Map<HistoricoDoUsuario, Float> usuariosFormatado = new HashMap<>();
+                List<HistoricoDoUsuario> historico = new ArrayList<>();
                 float totalVendido = 0;
                 for(String cpf: cpfsDiferentes){
                     int numCompras = 0;
@@ -107,27 +105,15 @@ public class Loja {
                     }
 
                     totalVendido += totalComprado;
-                    usuariosFormatado.put(new HistoricoDoUsuario(cpf, numCompras, totalComprado), totalComprado);
+                    historico.add(new HistoricoDoUsuario(cpf, numCompras, totalComprado));
 
                 }
 
                 //ordenar por maior receita
-                List<Float> valueList = new ArrayList<Float>((usuariosFormatado.values()));
-                Collections.sort(valueList);
-                Collections.reverse(valueList);
+                Collections.sort(historico);
+                Collections.reverse(historico);
 
-                List<HistoricoDoUsuario> historico = new ArrayList<>();
-                for(float v: valueList){
-                    for(Map.Entry<HistoricoDoUsuario, Float> e : usuariosFormatado.entrySet()){
-                        if(e.getValue() == v){
-                            historico.add(e.getKey());
-                            usuariosFormatado.remove(e.getKey()); // essa linha concerta o problema se dois tiverem o msm preço
-                            break;
-                        }
-                    }
-                }
-
-                new Paginador(historico, (i -> i.toString()), 3).promptPaginacao();
+                new Paginador<>(historico, (HistoricoDoUsuario::toString), 3).promptPaginacao();
 
                 System.out.printf("\nReceita Total: R$ %.2f\n", totalVendido);
             }

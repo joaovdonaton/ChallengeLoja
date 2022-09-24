@@ -43,12 +43,8 @@ public class Usuario {
     }
 
     public double totalCarrinho(){
-        double totalPreco = 0;
-        for(Map.Entry<Produto, Integer> produto: getCarrinho().entrySet()){
-            totalPreco += produto.getKey().getPreco()*produto.getValue();
-        }
-
-        return totalPreco;
+        return getCarrinho().entrySet().stream()
+                .mapToDouble((i) -> i.getValue()*i.getKey().getPreco()).reduce(0, Double::sum);
     }
 
     public void limparCarrinho(){
