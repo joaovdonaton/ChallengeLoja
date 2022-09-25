@@ -56,4 +56,10 @@ public class DataBase <T extends Armazenavel>{
     void setDados(List<T> dados){
         this.dados = dados;
     }
+
+    void debugDados(){
+        for (var dado: dados) {
+            System.out.println(dado);
+        }
+    }
 }

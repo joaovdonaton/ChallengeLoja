@@ -127,9 +127,9 @@ public class Loja {
         imprimirHeader("COMPRAS");
 
         Mercado mercado = new Mercado();
-        while(true) {
-            mercado.carregarProdutos();
+        mercado.carregarProdutos();
 
+        while(true) {
             System.out.println("\n[1] Buscar produto");
             System.out.println("[2] Listar todos os produtos");
             System.out.println("[3] Adicionar o produto ao carrinho");
@@ -185,6 +185,7 @@ public class Loja {
                     continue;
                 }
 
+                produto.removerEstoque(quantidade);
                 usuario.adicionarAoCarrinho(produto, quantidade);
                 System.out.println('\n' + produto.getNome() + " x " + quantidade + " adicionado ao carrinho com sucesso! ");
             }

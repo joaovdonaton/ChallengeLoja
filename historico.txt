@@ -1,4 +1,4 @@
-12312312300|3|Banana Verde@1@14.78|Pringles@17@10.99|Doritos@16@9.89
+12312312300|3|Doritos@16@9.89|Banana Verde@1@14.78|Pringles@17@10.99
 06267107159|3|Doritos@1@9.89|Doritos@14@9.89|Coca-Cola lata 350ml@20@3.19
 12312312300|2|Cerveja Duplo Malte Puro Malte@50@2.99|Desodorante Dove Men@2@26.99
 06267107159|1|Doritos@100@9.89
@@ -12,4 +12,10 @@
 06267107159|2|Coca-Cola lata 350ml@10@3.19|Doritos@100@9.89
 11111111111|1|Doritos@1@9.89
 11111111111|1|Desodorante Dove Men@3@26.99
-11111111111|2|Tang Goiaba 25g@1@1.19|Doritos@300@9.89
+11111111111|2|Doritos@300@9.89|Tang Goiaba 25g@1@1.19
+06267107159|3|Doritos@2@9.89|Melancia 1kg@10@8.99|Doritos@100@9.89
+admin|1|Doritos@50000@9.89
+06267107159|1|Doritos@50000@9.89
+06267107159|1|Doritos@20@9.89
+06267107159|1|Doritos@1@9.89
+06267107159|1|Doritos@50000@9.89

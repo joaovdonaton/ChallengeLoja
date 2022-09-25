@@ -4,18 +4,13 @@ import Objetos.Produto;
 import Objetos.Usuario;
 import Objetos.UsuarioHistorico;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /*
-*
-* BUG: e.g 100 unidades de doritos, o usuário pode adicionar ao carrinho 99, depois 99, depois 99... ultrapassando o limite, já que o estoque só é atualizado dps da compra
-*
-*
-*
+* BUG: e.g 100 unidades de doritos, o usuário pode adicionar ao carrinho 99, depois 99, depois 99...
+* ultrapassando o limite, já que o estoque só é atualizado dps da compra
 * */
 
 
@@ -104,14 +99,15 @@ public class Mercado {
      * Compra o carrinho do usuario, removendo as quantidades compradas da base de dados.
      */
     public void comprar(Usuario usuario){
-        for(Map.Entry<Produto, Integer> produto: usuario.getCarrinho().entrySet()){ // remover os itens do estoque
+        /*for(Map.Entry<Produto, Integer> produto: usuario.getCarrinho().entrySet()){ // remover os itens do estoque
             for(Produto p: DBProdutos.getDados()){
                 if(produto.getKey().getNome().equals(p.getNome())){
                     p.removerEstoque(produto.getValue());
                 }
             }
-        }
+        }*/
 
+        DBProdutos.debugDados();
         DBProdutos.salvarDados();
     }
 
