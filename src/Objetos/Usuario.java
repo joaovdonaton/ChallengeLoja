@@ -1,6 +1,7 @@
 package Objetos;
 
 import Interfaces.Armazenavel;
+import Interfaces.FormatoDB;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,11 @@ public class Usuario implements Armazenavel {
     }
 
     private String senha;
+
+    public static final FormatoDB<Usuario> FORMATO_DB = (linha) -> {
+        String[] dados = linha.split("\\|");
+        return new Usuario(dados[0], dados[2].equals("1"), dados[1]);
+    };
 
     public Usuario(String cpf, boolean admin, String senha){
         this.cpf = cpf;

@@ -1,13 +1,14 @@
 package Sistema;
 
-import Objetos.HistoricoDoUsuario;
 import Objetos.Produto;
 import Objetos.Usuario;
+import Objetos.UsuarioHistorico;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /*
 *
@@ -22,21 +23,9 @@ public class Mercado {
     private static final String PATH_PRODUTOS = "./produtos.txt";
     private static final String PATH_HISTORICO = "./historico.txt";
 
-    private static final DataBase<Produto> DBProdutos = new DataBase<>(PATH_PRODUTOS, (linha -> {
-        String[] dados = linha.split("\\|");
-        return new Produto(dados[0], dados[1], Float.parseFloat(dados[2]), Integer.parseInt(dados[3]));
-    }));
+    private static final DataBase<Produto> DBProdutos = new DataBase<>(PATH_PRODUTOS, Produto.FORMATO_DB);
 
-    private static final DataBase<Usuario> DBHistorico = new DataBase<>(PATH_HISTORICO, (linha -> {
-        String[] dados = linha.split("\\|");
-        Usuario u = new Usuario(dados[0], false, null);
-        for(int i = 2; i < Integer.parseInt(dados[1])+2; i++) {
-            String[] item = dados[i].split("@");
-            u.adicionarAoCarrinho(new Produto(item[0], null, Float.parseFloat(item[2]), 0), Integer.parseInt(item[1]));
-        }
-
-        return u;
-    }));
+    private static final DataBase<UsuarioHistorico> DBHistorico = new DataBase<>(PATH_HISTORICO, UsuarioHistorico.FORMATO_DB);
 
     /**
      * Cadastra o objeto produto no produtos.txt, FORMATO: NOME|DESCRIÇÃO|PREÇO|ESTOQUE
@@ -131,16 +120,9 @@ public class Mercado {
      * FORMATO DE ITEM_N: NOME@QUANTIDADE@PRECOPAGO
      * @param usuario
      */
-    public void salvarCompraNoHistorico(Usuario usuario){
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_HISTORICO, true))){
-            bw.append(usuario.getCpf() + "|" + usuario.getCarrinho().size());
-            for(Map.Entry<Produto, Integer> e: usuario.getCarrinho().entrySet()){
-                bw.append("|" + e.getKey().getNome() + "@" + e.getValue() + "@" + e.getKey().getPrecoFormatado().replace(",", "."));
-            }
-            bw.append("\n");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void salvarCompraNoHistorico(UsuarioHistorico usuario){
+        DBHistorico.add(usuario);
+        DBHistorico.salvarDados();
     }
 
     /**
@@ -148,7 +130,7 @@ public class Mercado {
      * notar que a descrição e a quantidade do estoque são null e zero respectivamente, visto que não são
      * úteis para o histórico.
      */
-    public List<Usuario> carregarHistorico(){
+    public List<UsuarioHistorico> carregarHistorico(){
         DBHistorico.carregarDados();
         return DBHistorico.getDados();
     }

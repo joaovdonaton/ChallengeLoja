@@ -12,10 +12,7 @@ public class Login {
     private static final String PATH_USUARIOS = "./usuarios.txt";
     private String cpf;
     private String senha;
-    private static final DataBase<Usuario> DB = new DataBase<>(PATH_USUARIOS, (linha) -> {
-        String[] dados = linha.split("\\|");
-        return new Usuario(dados[0], dados[2].equals("1"), dados[1]);
-    });
+    private static final DataBase<Usuario> DB = new DataBase<>(PATH_USUARIOS, Usuario.FORMATO_DB);
 
     public Login(String cpf, String senha) {
         this.cpf = cpf;

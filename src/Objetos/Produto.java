@@ -1,12 +1,18 @@
 package Objetos;
 
 import Interfaces.Armazenavel;
+import Interfaces.FormatoDB;
 
 public class Produto implements Armazenavel {
     private String nome;
     private String descricao;
     private float preco;
     private int qnt_estoque;
+
+    public static final FormatoDB<Produto> FORMATO_DB = (linha -> {
+        String[] dados = linha.split("\\|");
+        return new Produto(dados[0], dados[1], Float.parseFloat(dados[2]), Integer.parseInt(dados[3]));
+    });
 
     public Produto(String nome, String descricao, float preco, int qnt_estoque){
         this.nome = nome;
@@ -22,6 +28,7 @@ public class Produto implements Armazenavel {
         return this.getNome() + "|" + this.getDescricao() + "|" + getPrecoFormatado().replace(',', '.')
                 + "|" + this.getQnt_estoque();
     }
+
 
     @Override
     public boolean equals(Object obj) {

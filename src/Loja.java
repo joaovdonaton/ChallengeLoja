@@ -1,6 +1,7 @@
 import Objetos.HistoricoDoUsuario;
 import Objetos.Produto;
 import Objetos.Usuario;
+import Objetos.UsuarioHistorico;
 import Sistema.Login;
 import Sistema.Mercado;
 import Sistema.Paginador;
@@ -79,7 +80,7 @@ public class Loja {
                 System.out.println("\nRelatório de Clientes (Ordenado por cliente que gerou mais receita): \n");
 
                 Mercado m = new Mercado();
-                List<Usuario> usuariosHistorico = m.carregarHistorico();
+                List<UsuarioHistorico> usuariosHistorico = m.carregarHistorico();
 
                 /* O método carregar histórico retorna todas as compras individualmente, então se um cliente tiver feito
                 duas compras, ele aparecerá duas vezes no histórico. Logo precisamos ver quais são os CPFS de cada cliente
@@ -204,7 +205,7 @@ public class Loja {
                 }
 
                 mercado.comprar(usuario);
-                mercado.salvarCompraNoHistorico(usuario);
+                mercado.salvarCompraNoHistorico((UsuarioHistorico) usuario); //arrumar
 
                 System.out.println("Compra realizada com sucesso!");
                 System.out.println("Total: R$ " + String.format("%.2f", usuario.totalCarrinho()));
