@@ -1,25 +1,15 @@
 package Sistema;
 
 import Objetos.Produto;
-import Objetos.Usuario;
 import Objetos.UsuarioHistorico;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-/*
-* BUG: e.g 100 unidades de doritos, o usuário pode adicionar ao carrinho 99, depois 99, depois 99...
-* ultrapassando o limite, já que o estoque só é atualizado dps da compra
-* */
-
 
 public class Mercado {
     private static final String PATH_PRODUTOS = "./produtos.txt";
     private static final String PATH_HISTORICO = "./historico.txt";
-
     private static final DataBase<Produto> DBProdutos = new DataBase<>(PATH_PRODUTOS, Produto.FORMATO_DB);
-
     private static final DataBase<UsuarioHistorico> DBHistorico = new DataBase<>(PATH_HISTORICO, UsuarioHistorico.FORMATO_DB);
 
     /**
@@ -97,17 +87,9 @@ public class Mercado {
 
     /**
      * Compra o carrinho do usuario, removendo as quantidades compradas da base de dados.
+     * A quantidade de cada produto comprado já deve ter sido atualizada anteriormente, através de getProduto
      */
-    public void comprar(Usuario usuario){
-        /*for(Map.Entry<Produto, Integer> produto: usuario.getCarrinho().entrySet()){ // remover os itens do estoque
-            for(Produto p: DBProdutos.getDados()){
-                if(produto.getKey().getNome().equals(p.getNome())){
-                    p.removerEstoque(produto.getValue());
-                }
-            }
-        }*/
-
-        DBProdutos.debugDados();
+    public void comprar(){
         DBProdutos.salvarDados();
     }
 
@@ -123,7 +105,7 @@ public class Mercado {
     }
 
     /**
-     * @return uma list em que cada Objetos.Usuario representa uma compra passada. Importante
+     * @return uma list em que cada UsuarioHistorico representa uma compra passada. Importante
      * notar que a descrição e a quantidade do estoque são null e zero respectivamente, visto que não são
      * úteis para o histórico.
      */

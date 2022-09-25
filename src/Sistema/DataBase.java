@@ -17,6 +17,10 @@ public class DataBase <T extends Armazenavel>{
         this.formatoDB = formatoDB;
     }
 
+    /**
+     * Lê os dados da base de dados. Usa o método da interface FormatoDB para implementar a lógica que lê cada
+     * entrada e retorna o objeto de tipo T.
+     */
     void carregarDados() {
         dados.clear();
         try(BufferedReader br = new BufferedReader(new FileReader(PATH_DB))){
@@ -29,6 +33,10 @@ public class DataBase <T extends Armazenavel>{
         }
     }
 
+    /**
+     * Salva os dados do tipo T na base de dados. Cada entrada da base de dados é uma linha. Usa o método criarLinha
+     * da interface Armazenavel para criar essa entrada e escrever para a DB.
+     */
     void salvarDados(){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_DB, false))){
             for(T dado: dados){
@@ -51,15 +59,5 @@ public class DataBase <T extends Armazenavel>{
      */
     List<T> getDados(){
         return dados;
-    }
-
-    void setDados(List<T> dados){
-        this.dados = dados;
-    }
-
-    void debugDados(){
-        for (var dado: dados) {
-            System.out.println(dado);
-        }
     }
 }

@@ -163,7 +163,7 @@ public class Loja {
                 Produto produto = mercado.getProduto(scanner.nextLine());
 
                 if(produto == null){
-                    System.out.println("Objetos.Produto não encontrado.");
+                    System.out.println("Produto não encontrado.");
                     continue;
                 }
 
@@ -205,7 +205,7 @@ public class Loja {
                     continue;
                 }
 
-                mercado.comprar(usuario);
+                mercado.comprar();
                 mercado.salvarCompraNoHistorico(new UsuarioHistorico(usuario));
 
                 System.out.println("Compra realizada com sucesso!");
@@ -273,7 +273,7 @@ public class Loja {
 
                 Produto p = mercado.getProduto(nome);
                 if(p == null){
-                    System.out.println("\n [!] Objetos.Produto não encontrado!");
+                    System.out.println("\n [!] Produto não encontrado!");
                     continue;
                 }
 
@@ -288,12 +288,12 @@ public class Loja {
 
                 Produto p = mercado.getProduto(nome);
                 if(p == null){
-                    System.out.println("\n [!] Objetos.Produto não encontrado!");
+                    System.out.println("\n [!] Produto não encontrado!");
                     continue;
                 }
 
                 mercado.removerProdutoDoEstoque(p);
-                System.out.println("\nObjetos.Produto Removido com sucesso!");
+                System.out.println("\nProduto Removido com sucesso!");
             }
             else if(opcao == 5) break;
             else{
