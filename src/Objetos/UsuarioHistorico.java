@@ -12,6 +12,11 @@ public class UsuarioHistorico extends Usuario{
         super(cpf, admin, senha);
     }
 
+    public UsuarioHistorico(Usuario u) {
+        super(u.getCpf(), u.isAdmin(), u.getSenha());
+        this.setCarrinho(u.getCarrinho());
+    }
+
     public static final FormatoDB FORMATO_DB = (linha -> {
         String[] dados = linha.split("\\|");
         UsuarioHistorico u = new UsuarioHistorico(dados[0], false, null);

@@ -118,10 +118,11 @@ public class Mercado {
     /**
      * Salva os itens da compra no PATH_HISTORICO, FORMATO: CPF|QNT_ITENS|ITEM_1|ITEM_2|ITEM_3
      * FORMATO DE ITEM_N: NOME@QUANTIDADE@PRECOPAGO
-     * @param usuario
+     * @param usuarioHistorico
      */
-    public void salvarCompraNoHistorico(UsuarioHistorico usuario){
-        DBHistorico.add(usuario);
+    public void salvarCompraNoHistorico(UsuarioHistorico usuarioHistorico){
+        carregarHistorico();
+        DBHistorico.add(usuarioHistorico);
         DBHistorico.salvarDados();
     }
 

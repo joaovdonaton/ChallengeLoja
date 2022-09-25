@@ -205,7 +205,7 @@ public class Loja {
                 }
 
                 mercado.comprar(usuario);
-                mercado.salvarCompraNoHistorico((UsuarioHistorico) usuario); //arrumar
+                mercado.salvarCompraNoHistorico(new UsuarioHistorico(usuario));
 
                 System.out.println("Compra realizada com sucesso!");
                 System.out.println("Total: R$ " + String.format("%.2f", usuario.totalCarrinho()));

@@ -57,6 +57,10 @@ public class Usuario implements Armazenavel {
         return carrinho;
     }
 
+    public void setCarrinho(Map<Produto, Integer> carrinho){
+        this.carrinho = carrinho;
+    }
+
     public double totalCarrinho(){
         return getCarrinho().entrySet().stream()
                 .mapToDouble((i) -> i.getValue()*i.getKey().getPreco()).reduce(0, Double::sum);
