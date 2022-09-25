@@ -31,3 +31,5 @@ bin/
 #
 ./bkp.txt
 ./produtos backup
+.idea
+ChallengeLoja.iml
