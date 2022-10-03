@@ -4,6 +4,7 @@ import Objetos.Produto;
 import Objetos.UsuarioHistorico;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Mercado {
@@ -54,6 +55,7 @@ public class Mercado {
      */
     public List<Produto> buscarProdutos(String busca){
         List<Produto> encontrados = new ArrayList<>();
+
         for(Produto produto: DBProdutos.getDados()){
             for(String palavra: produto.getNome().split(" ")){
                 if(palavra.equalsIgnoreCase(busca)){
@@ -96,7 +98,6 @@ public class Mercado {
     /**
      * Salva os itens da compra no PATH_HISTORICO, FORMATO: CPF|QNT_ITENS|ITEM_1|ITEM_2|ITEM_3
      * FORMATO DE ITEM_N: NOME@QUANTIDADE@PRECOPAGO
-     * @param usuarioHistorico
      */
     public void salvarCompraNoHistorico(UsuarioHistorico usuarioHistorico){
         carregarHistorico();
