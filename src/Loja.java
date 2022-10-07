@@ -2,7 +2,6 @@ import Objetos.HistoricoDoUsuario;
 import Objetos.Produto;
 import Objetos.Usuario;
 import Objetos.UsuarioHistorico;
-import Sistema.DataBase;
 import Sistema.Login;
 import Sistema.Mercado;
 import Sistema.Paginador;
@@ -78,6 +77,8 @@ public class Loja {
                     continue;
                 }
 
+                imprimirHeader("RELATÓRIO");
+
                 System.out.println("\nRelatório de Clientes (Ordenado por cliente que gerou mais receita): \n");
 
                 Mercado m = new Mercado();
@@ -93,6 +94,7 @@ public class Loja {
                 }
 
                 List<HistoricoDoUsuario> historico = new ArrayList<>();
+                List<Produto> produtosComprados = new ArrayList<>();
                 float totalVendido = 0;
                 for(String cpf: cpfsDiferentes){
                     int numCompras = 0;
@@ -102,6 +104,8 @@ public class Loja {
                             for(Map.Entry<Produto, Integer> e: u.getCarrinho().entrySet()){
                                 numCompras += e.getValue();
                                 totalComprado += e.getKey().getPreco()*e.getValue();
+
+                                produtosComprados.add(e.getKey());
                             }
                         }
                     }
@@ -118,6 +122,32 @@ public class Loja {
                 new Paginador<>(historico, (HistoricoDoUsuario::toString), 3).promptPaginacao();
 
                 System.out.printf("\nReceita Total: R$ %.2f\n", totalVendido);
+
+                //qual é o produto comprado mais frequentemente
+
+                final Map<Produto, Integer> frequenciaProdutos = new HashMap<>(); // variável precisa ser final para que o lambda consiga acessar. (capturing lambda)
+                produtosComprados.forEach((p) -> {
+                    if(!frequenciaProdutos.containsKey(p)){
+                        frequenciaProdutos.put(p, 1);
+                    }
+                    else{
+                        frequenciaProdutos.put(p, frequenciaProdutos.get(p)+1);
+                    }
+                });
+
+                Produto produtoMaisComprado = null;
+
+                int i = 0;
+                for(var e : frequenciaProdutos.entrySet()){
+                    if(e.getValue() >= i){
+                        i = e.getValue();
+                        produtoMaisComprado = e.getKey();
+                    }
+                }
+
+                System.out.printf("O produto mais frequentemente comprado foi: %s", produtoMaisComprado.getNome());
+
+                System.out.println();
             }
             else if (opcao == 5) System.exit(0);
             else System.out.println("\n [!] Opção inválida!");

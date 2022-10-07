@@ -3,6 +3,8 @@ package Objetos;
 import Interfaces.Armazenavel;
 import Interfaces.FormatoDB;
 
+import java.util.Objects;
+
 public class Produto implements Armazenavel {
     private String nome;
     private String descricao;
@@ -36,6 +38,11 @@ public class Produto implements Armazenavel {
             return (this == obj) || this.getNome().equalsIgnoreCase(produto.getNome());
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome);
     }
 
     public String getNome() {
