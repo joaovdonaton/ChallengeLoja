@@ -1,7 +1,7 @@
 # Projeto Sistema de Loja - PAFT
 ### João Vitor Macambira Donaton
 
-#### Vídeo com a apresentação (v2.0): 
+#### Vídeo com a apresentação (v2.0): https://www.youtube.com/watch?v=iAjqBJQo5Zc
 
 Conteúdo do Vídeo:
 
