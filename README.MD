@@ -1,6 +1,8 @@
 # Projeto Sistema de Loja - PAFT
 ### João Vitor Macambira Donaton
 
+Projeto final da matéria de Java.
+
 #### Vídeo com a apresentação (v2.0): https://www.youtube.com/watch?v=iAjqBJQo5Zc
 
 Conteúdo do Vídeo:
